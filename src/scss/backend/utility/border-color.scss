@@ -1,0 +1,50 @@
+// Border color utilities
+.prad-b {
+	&c {
+		&-border {
+			&-primary {
+				border-color: var(--prad-color-border-primary);
+			}
+			&-secondary {
+				border-color: var(--prad-color-border-secondary);
+			}
+			&-light {
+				border-color: var(--prad-color-border-light);
+			}
+		}
+		&-base {
+			&1 {
+				border-color: var(--prad-color-base-one);
+			}
+			&2 {
+				border-color: var(--prad-color-base-two);
+			}
+			&3 {
+				border-color: var(--prad-color-base-three);
+			}
+		}
+		&-text {
+			&-dark {
+				border-color: var(--prad-color-text-dark);
+			}
+			&-medium {
+				border-color: var(--prad-color-text-medium);
+			}
+			&-light {
+				border-color: var(--prad-color-text-light);
+			}
+			&-reverse {
+				border-color: var(--prad-color-text-reverse);
+			}
+			&-body {
+				border-color: var(--prad-color-text-body);
+			}
+		}
+		&-currentColor {
+			border-color: currentColor;
+		}
+		&-transparent {
+			border-color: transparent;
+		}
+	}
+}

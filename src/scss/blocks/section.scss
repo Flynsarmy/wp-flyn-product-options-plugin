@@ -1,0 +1,32 @@
+.prad-section-wrapper {
+	height: max-content;
+	&.prad-section-init-close {
+		.prad-section-body {
+			max-height: 0 !important;
+		}
+		.prad-accordion-icon {
+			transform: rotate(0deg);
+		}
+	}
+}
+.prad-section {
+	&-body {
+		transition:
+			max-height var(--prad-transition-smd) ease-in-out,
+			opacity var(--prad-transition-md) ease-in-out,
+			visibility var(--prad-transition-md) ease-in-out;
+		&.prad-inactive {
+			overflow: hidden;
+			opacity: 0;
+			visibility: hidden;
+		}
+		&.prad-active {
+			overflow: visible;
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+	&-head-inactive {
+		padding: 0;
+	}
+}

@@ -1,0 +1,42 @@
+.prad-font {
+	&-extra {
+		font-weight: var(--prad-font-weight-extra);
+	}
+	&-bold {
+		font-weight: var(--prad-font-weight-bold);
+	}
+	&-semi {
+		font-weight: var(--prad-font-weight-semi);
+	}
+	&-regular {
+		font-weight: var(--prad-font-weight-regular);
+	}
+	&-32 {
+		font-size: 32px;
+		line-height: var(--prad-line-height-regular);
+	}
+	&-24 {
+		font-size: 24px;
+		line-height: var(--prad-line-height-regular);
+	}
+	&-20 {
+		font-size: 20px;
+		line-height: var(--prad-line-height-regular);
+	}
+	&-18 {
+		font-size: 18px;
+		line-height: var(--prad-line-height-regular);
+	}
+	&-16 {
+		font-size: 16px;
+		line-height: var(--prad-line-height-regular);
+	}
+	&-14 {
+		font-size: 14px;
+		line-height: var(--prad-line-height-regular);
+	}
+	&-12 {
+		font-size: 12px;
+		line-height: var(--prad-line-height-regular);
+	}
+}

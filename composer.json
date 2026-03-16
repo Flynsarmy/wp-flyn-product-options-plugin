@@ -1,0 +1,18 @@
+{
+    "name": "flynsarmy/product-options",
+    "description": "The ultimate WooCommerce product addons plugin to add extra product options, including, swatches, image uploads, text area, and more!.",
+    "type": "wordpress-plugin",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Flyn San",
+            "email": "flynsarmy@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Flyn\\ProductOptions\\": "ProductOptions"
+        }
+    },
+    "require": {}
+}

@@ -1,0 +1,9 @@
+.prad-minmax-warning-message {
+	& {
+		opacity: 0;
+		transition: opacity 0.6s ease;
+	}
+	&.prad-animate-waring {
+		opacity: 1;
+	}
+}

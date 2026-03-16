@@ -1,0 +1,47 @@
+// Border utilities
+.prad-border {
+	&-default {
+		border: 1px solid var(--prad-color-border-primary);
+		&-none {
+			border: none;
+		}
+	}
+	&-secondary {
+		border: 1px solid var(--prad-color-border-secondary);
+	}
+	&-left {
+		&-default {
+			border-left: 1px solid var(--prad-color-border-primary);
+		}
+		&-none {
+			border-left: none;
+		}
+	}
+	&-right {
+		&-default {
+			border-right: 1px solid var(--prad-color-border-primary);
+		}
+		&-none {
+			border-right: none;
+		}
+	}
+	&-top {
+		&-default {
+			border-top: 1px solid var(--prad-color-border-primary);
+		}
+		&-none {
+			border-top: none;
+		}
+	}
+	&-bottom {
+		&-default {
+			border-bottom: 1px solid var(--prad-color-border-primary);
+		}
+		&-none {
+			border-bottom: none;
+		}
+	}
+	&-none {
+		border: none;
+	}
+}

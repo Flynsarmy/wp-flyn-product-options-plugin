@@ -1,0 +1,121 @@
+.prad-list-action {
+	@media (max-width: 1024px) {
+		width: 100%;
+	}
+
+	.prad-select-wrapper-component {
+		@media (max-width: 1024px) {
+			min-width: auto !important;
+			width: 100% !important;
+		}
+	}
+
+	.prad-list-action-create-button {
+		display: none;
+		@media (max-width: 1024px) {
+			display: block;
+			text-wrap-mode: nowrap;
+		}
+	}
+}
+
+.prad-list-action-filter {
+	@media (max-width: 1024px) {
+		flex-wrap: nowrap;
+		flex-direction: row-reverse;
+
+		.prad-search-block {
+			max-width: 100% !important;
+			.prad-input {
+				width: calc(100% - 42px);
+			}
+		}
+	}
+}
+
+.prad-editor-large-subheader-content {
+	@media (max-width: 1024px) {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		padding: 0 16px !important;
+		gap: 4px;
+	}
+	.prad-editor-large-subheader-logo {
+		@media (max-width: 1024px) {
+			padding: 6px !important;
+			border: none;
+		}
+	}
+	.prad-editor-large-subheader-button-add {
+		@media (max-width: 1024px) {
+			padding: 6px !important;
+			border: none;
+			margin: 0 auto;
+		}
+	}
+
+	.prad-editor-large-subheader-button-exit {
+		display: none;
+		@media (max-width: 1024px) {
+			display: block;
+			padding: 6px !important;
+			border: none;
+			margin-left: auto;
+		}
+	}
+
+	.prad-editor-large-subheader-options {
+		@media (max-width: 1024px) {
+			grid-column: 1 / span 3;
+			flex-direction: column;
+			gap: 8px;
+			padding-left: 0 !important;
+		}
+
+		.prad-editor-large-subheader-options-left {
+			@media (max-width: 1024px) {
+				width: 100%;
+			}
+
+			.prad-editor-large-subheader-title {
+				@media (max-width: 1024px) {
+					width: 100%;
+				}
+			}
+		}
+		.prad-editor-large-subheader-options-right {
+			@media (max-width: 1024px) {
+				width: 100%;
+				// flex-direction: column;
+				gap: 4px;
+				margin-bottom: 8px;
+			}
+
+			.prad-editor-large-subheader-button-global {
+				@media (max-width: 1024px) {
+					width: 100%;
+				}
+
+				.prad-icon {
+					@media (max-width: 1024px) {
+						display: none;
+					}
+				}
+			}
+
+			.prad-editor-large-subheader-button-status-group {
+				@media (max-width: 1024px) {
+					width: 100%;
+					flex-wrap: nowrap;
+					gap: 4px;
+				}
+			}
+			.prad-editor-large-subheader-button-save {
+				@media (max-width: 1024px) {
+					width: 100%;
+					text-align: center;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,18 @@
+// Cursor utilities
+.prad-cursor {
+	&-pointer {
+		cursor: pointer;
+	}
+	&-default {
+		cursor: default;
+	}
+	&-not-allowed {
+		cursor: not-allowed;
+	}
+	&-move {
+		cursor: move;
+	}
+	&-text {
+		cursor: text;
+	}
+}

@@ -1,0 +1,414 @@
+// MenuBar design
+.prad-content-edit-menubar {
+	position: sticky;
+	top: 0;
+	background: #fafafa;
+	z-index: 9;
+	display: flex;
+	gap: 8px;
+	padding: 6px;
+	border-bottom: 1px solid #e0e0e0;
+	align-items: center;
+	row-gap: 14px;
+	justify-content: space-between;
+
+	.prad-content-edit-menubar-groups {
+		display: flex;
+		gap: 6px;
+		flex-wrap: wrap;
+		align-items: center;
+
+		.wow-icon {
+			display: flex;
+		}
+	}
+	.prad-content-edit-menu-group {
+		display: flex;
+		gap: 6px;
+
+		.prad-dropdown {
+			height: 28px;
+		}
+	}
+
+	.prad-menubar-btn {
+		padding: 6px;
+		border: none;
+		border-radius: 6px;
+		background: #e5ebe5;
+		color: #3a3e39;
+		font-size: 14px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		position: relative;
+		overflow: hidden;
+		min-width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		justify-content: center;
+
+		&.prad-ce-menu-active {
+			background: #dceabb;
+		}
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+			transform: none;
+			background: #f1f3f4;
+			color: #8c8f94;
+		}
+
+		// Icon spacing
+		svg + span,
+		span + svg {
+			margin-left: 4px;
+		}
+	}
+}
+
+.prad-menu-highlight-dropdown {
+	padding: 12px;
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	button {
+		padding: 0 !important;
+		height: fit-content !important;
+		width: fit-content !important;
+		min-width: unset !important;
+		border-radius: 50%;
+		display: flex;
+		border: none;
+		&.prad-highlight-color-active {
+			border: 1px solid #86a62c;
+			padding: 2px;
+		}
+	}
+}
+
+// HtmlEditor component
+.prad-html-editor-wrapper {
+	width: 100%;
+	.prad-html-editor {
+		outline: none;
+		font-family: monospace;
+		font-size: 14px;
+		line-height: 1.6;
+		min-height: 180px;
+		resize: vertical;
+		border: 1px solid #e0e0e0;
+		border-left: none;
+		border-radius: 0 6px 6px 0;
+		padding: 8px 10px;
+		width: 100%;
+		background: #fff;
+	}
+}
+
+// --- Begin merged from scss/prad-content-editor.scss ---
+.prad-content-editor {
+	position: relative;
+	max-height: 500px;
+	overflow: auto;
+	border-radius: 8px;
+	background: #ffffff;
+	border: 1px solid #e0e0e0;
+	// overflow: hidden;
+	transition: all 0.3s ease;
+
+	.ProseMirror {
+		// Add trailing break styling
+		p:last-child::after {
+			content: "";
+			display: inline-block;
+			width: 0;
+			height: 1.2em;
+			vertical-align: text-top;
+		}
+
+		// Ensure empty last paragraph is clickable
+		p:last-child:empty::before {
+			content: "\200B"; // Zero-width space
+			display: inline;
+		}
+	}
+
+	&:focus-within {
+		box-shadow: 0 4px 12px rgba(18, 112, 188, 0.15);
+	}
+	.prad-content-editor-content {
+		.ProseMirror {
+			padding: 16px;
+			min-height: 200px;
+			-webkit-user-select: text;
+			-moz-user-select: text;
+			-ms-user-select: text;
+			user-select: text;
+
+			.ProseMirror-gapcursor {
+				display: none;
+			}
+			.ProseMirror-focused .selectedCell {
+				background-color: rgba(34, 113, 177, 0.2);
+			}
+			.ProseMirror-selectednode {
+				outline: 2px solid #2271b1;
+				outline-offset: 1px;
+			}
+			table {
+				td:hover,
+				th:hover {
+					background-color: rgba(34, 113, 177, 0.08);
+					cursor: text;
+				}
+				.selectedCell {
+					background-color: rgba(34, 113, 177, 0.15);
+					border: 2px solid #2271b1;
+					position: relative;
+				}
+			}
+			.column-resize-handle {
+				position: absolute;
+				right: -2px;
+				top: 0;
+				bottom: 0;
+				width: 4px;
+				background: transparent;
+				cursor: col-resize;
+				z-index: 10;
+				pointer-events: auto;
+				transform: translateZ(0);
+
+				&:hover {
+					background: #2271b1;
+				}
+			}
+			.tableWrapper {
+				position: relative;
+				contain: layout style;
+				isolation: isolate;
+				margin-bottom: 12px;
+
+				&.resize-cursor {
+					cursor: col-resize;
+				}
+
+				&.ProseMirror-selectednode {
+					outline: 2px solid #2271b1;
+					outline-offset: 2px;
+				}
+			}
+		}
+	}
+}
+
+.prad-content-editor-dropdown {
+	background: #fff;
+	border: 1px solid #d5dad4;
+	border-radius: 6px;
+	box-shadow: 0px 2px 4px 0px #46571d14;
+	width: max-content;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 100px;
+	button {
+		padding: 8px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		background: transparent;
+		text-align: left;
+		&:hover {
+			background: #f3f5f3;
+		}
+
+		&.prad-ce-menu-active {
+			background: #f3f5f3;
+		}
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+			transform: none;
+			background: #f1f3f4;
+			color: #8c8f94;
+		}
+	}
+	input {
+		width: 100%;
+		padding: 6px 8px;
+		border: 1px solid #d5dad4;
+		border-radius: 4px;
+		font-size: 14px;
+		outline: none;
+		margin-bottom: 4px;
+	}
+}
+
+// Dropdown styles
+.prad-dropdown-list-base {
+	width: fit-content;
+	z-index: 10;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	margin-top: 4px;
+}
+
+.prad-dropdown-list-heading {
+	font-size: 14px;
+	color: #0b0e04;
+	font-weight: 500;
+	padding-bottom: 8px;
+}
+
+.prad-dropdown-hr {
+	margin: 4px 0;
+	border: none;
+	border-top: 1px solid #eee;
+}
+
+.prad-dropdown-btn-left {
+	text-align: left;
+}
+
+.prad-dropdown-btn-danger {
+	color: #d63638;
+}
+
+.prad-dropdown-btn-secondary {
+	color: #666;
+}
+
+.prad-dropdown-btn-icon-margin {
+	margin-right: 8px;
+}
+
+.prad-dropdown-flex-gap {
+	display: flex;
+	gap: 8px;
+}
+
+.prad-dropdown-input-full {
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.prad-dropdown-scroll {
+	max-height: 300px;
+	overflow-y: auto;
+	display: flex;
+}
+
+.prad-dropdown-min-width-180 {
+	min-width: 180px;
+}
+
+.prad-dropdown-min-width-300 {
+	min-width: 300px;
+}
+
+.prad-dropdown-min-width-120 {
+	min-width: 120px;
+}
+
+.prad-dropdown-min-width-250 {
+	min-width: 250px;
+}
+
+.prad-dropdown-width-max-content {
+	width: max-content;
+}
+
+.prad-dropdown-padding-10-20 {
+	padding: 10px 20px;
+	display: flex;
+	gap: 6px;
+	align-items: center;
+
+	button {
+		padding: 0 !important;
+		height: fit-content !important;
+		width: fit-content !important;
+		min-width: unset !important;
+		border-radius: 50%;
+		display: flex;
+		border: 1px solid #a7a7a7a7;
+		cursor: pointer;
+	}
+}
+
+.prad-dropdown-text-center {
+	text-align: center;
+	font-size: 12px;
+	color: #666;
+	padding: 4px;
+}
+
+.prad-dropdown-relative {
+	position: relative;
+}
+
+.prad-dropdown-list {
+	cursor: default;
+}
+
+// Table picker styles
+.prad-table-picker {
+	display: grid;
+	gap: 2px;
+	padding: 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+	margin: 8px 0;
+}
+
+.prad-table-cell {
+	width: 20px;
+	height: 20px;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	cursor: pointer;
+	transition: background-color 0.1s ease;
+
+	&.selected {
+		background-color: #2271b1;
+	}
+}
+
+.prad-table-cell-grid {
+	grid-template-columns: repeat(var(--max-cols), 20px);
+}
+
+// Highlight styles
+.prad-highlight-icon {
+	color: var(--highlight-color, #fff700);
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.prad-highlight-remove-span {
+	height: 20px;
+	background: #fff;
+}
+
+.prad-highlight-color-span {
+	cursor: pointer;
+	height: 20px;
+	width: 20px;
+	display: inline-block;
+	border-radius: 20px;
+	border: 1px solid #ffffff;
+
+	// &.prad-highlight-color-active {
+	// 	border: 1px solid #86a62c;
+	// }
+}
+
+.prad-dropdown-btn-secondary {
+	color: #666;
+}

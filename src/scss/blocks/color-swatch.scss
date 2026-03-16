@@ -1,0 +1,142 @@
+/* ---------------------------
+------ Swatches Block Common ----
+------------------------------ */
+.prad-block-item-img-parent {
+	.prad-block-item-img {
+		height: 42px;
+		width: 42px;
+		border-radius: 2px;
+		margin-right: 8px;
+	}
+	&.prad-block-img-circle {
+		.prad-block-item-img {
+			border-radius: 50%;
+		}
+	}
+}
+.prad-swatch {
+	&-wrapper {
+		display: grid;
+		gap: 6px;
+		.prad-block-content-wrapper {
+			margin-bottom: 8px;
+			flex: 1 1 auto;
+			justify-content: space-between;
+			padding: 0 2px;
+		}
+	}
+	&-container {
+		overflow: hidden;
+		flex: 0 0 auto;
+	}
+	&-mark {
+		&-image,
+		&-color {
+			line-height: 0;
+			position: absolute;
+			display: none;
+			&.prad-active {
+				display: block;
+			}
+		}
+	}
+	&-layout {
+		&_overlay {
+			.prad-swatch-container {
+				display: flex;
+			}
+			.prad-block-content-wrapper {
+				position: absolute;
+				padding: 4px;
+			}
+		}
+	}
+	&-item {
+		box-sizing: border-box;
+	}
+}
+.prad-parent .prad-swatch {
+	&-wrapper {
+		margin-left: -2px;
+		// gap: 10px;
+	}
+}
+.prad-block-color-switcher .prad-swatch-wrapper {
+	gap: 6px;
+}
+.prad-block-color-switcher,
+.prad-type_swatches-input {
+	&.prad-swatch-layout {
+		&_overlay {
+			.prad-swatch {
+				&-wrapper {
+					.prad-block-content-wrapper {
+						margin-bottom: 0px;
+					}
+				}
+			}
+			.prad-hover {
+				&-show-bottom {
+					.prad-effect-container {
+						transform: translateY(100%);
+						opacity: 0;
+						transition: all var(--prad-transition-md);
+					}
+					&:hover {
+						.prad-effect-container {
+							transform: translateY(0%);
+							opacity: 1;
+						}
+					}
+				}
+				&-hide-bottom:hover {
+					.prad-effect-container {
+						transform: translateY(100%);
+						opacity: 0;
+						transition: all var(--prad-transition-md);
+					}
+				}
+			}
+		}
+	}
+}
+
+/* ---------------------------
+------ Color Swatches Block  ----
+------------------------------ */
+.prad-color-switcher-container {
+	display: flex;
+	gap: 12px;
+	input[type="checkbox"] {
+		appearance: none !important;
+		position: absolute !important;
+		opacity: 0 !important;
+		&:checked {
+			& + label {
+				border: 2px solid var(--prad-color-text-dark) !important;
+			}
+		}
+	}
+	.prad-color-switcher-field {
+		display: block;
+		height: 56px;
+		width: 56px;
+		cursor: pointer;
+		border-radius: 4px;
+		position: relative;
+		&:hover .prad-color-switch-label {
+			display: block;
+		}
+		.prad-color-switch-label {
+			display: none;
+			position: absolute;
+			background: var(--prad-color-dark);
+			color: var(--prad-color-base-one);
+			padding: 2px 4px !important;
+			border-radius: 4px;
+			top: -32px;
+			width: max-content;
+			height: 30px;
+		}
+	}
+}

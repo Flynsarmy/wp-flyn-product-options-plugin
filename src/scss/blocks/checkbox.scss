@@ -1,0 +1,50 @@
+.prad-type-checkbox-input .prad-input-container {
+	input[type="checkbox"] {
+		appearance: none !important;
+		position: absolute !important;
+		opacity: 0 !important;
+		&:checked {
+			& + label .prad-checkbox-mark svg {
+				display: block !important;
+			}
+		}
+	}
+	.prad-checkbox-mark svg {
+		display: none;
+	}
+	label {
+		cursor: pointer;
+	}
+}
+.prad-checkbox-mark {
+	display: block;
+	position: relative;
+	height: 20px;
+	width: 20px;
+	background-color: var(--prad-color-base-one);
+	border: 1px solid var(--prad-color-text-dark);
+	border-radius: var(--prad-border-radius-smd);
+	line-height: 0;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	&::after {
+		content: "";
+		position: absolute;
+		top: 4px;
+		left: 4px;
+		bottom: 4px;
+		right: 4px;
+		background: url("../img/white-tick.svg") center / cover no-repeat;
+		display: none;
+	}
+	&.prad-active {
+		background-color: var(--prad-color-text-dark);
+		&::after {
+			display: block;
+		}
+	}
+	svg {
+		margin: -1px 0 0 -1px !important;
+		max-height: unset !important;
+	}
+}

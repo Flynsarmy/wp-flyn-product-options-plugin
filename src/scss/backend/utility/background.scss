@@ -1,0 +1,75 @@
+// Background utilities
+.prad-bg {
+	&-primary {
+		background-color: var(--prad-color-primary);
+	}
+	&-secondary {
+		background-color: var(--prad-color-secondary);
+	}
+	&-tertiary {
+		background-color: var(--prad-color-tertiary);
+	}
+	&-medium {
+		background-color: var(--prad-color-medium);
+	}
+	&-light {
+		background-color: var(--prad-color-light);
+	}
+	&-dark {
+		background-color: var(--prad-color-dark);
+	}
+	&-base1 {
+		background-color: var(--prad-color-base-one);
+	}
+	&-base2 {
+		background-color: var(--prad-color-base-two);
+	}
+	&-base3 {
+		background-color: var(--prad-color-base-three);
+		&-soft {
+			background-color: var(--prad-color-base-three-soft);
+		}
+	}
+	&-error {
+		color: var(--prad-color-error);
+	}
+	&-active {
+		background-color: var(--prad-color-active);
+	}
+	&-transparent {
+		background-color: transparent;
+	}
+	&-text-dark {
+		background-color: var(--prad-color-text-dark);
+	}
+	&-border {
+		&-primary {
+			background-color: var(--prad-color-border-primary);
+		}
+		&-secondary {
+			background-color: var(--prad-color-border-secondary);
+		}
+		&-light {
+			background-color: var(--prad-color-border-light);
+		}
+	}
+	&-facebook {
+		background-color: var(--prad-color-facebook);
+	}
+	&-orange {
+		&-base {
+			background-color: var(--prad-color-orange-base);
+		}
+	}
+	&-blue {
+		&-light {
+			background-color: var(--prad-color-blue-light);
+		}
+	}
+}
+
+.hover\:prad-bg {
+	&-error:hover {
+		background-color: var(--prad-color-error);
+	}
+}

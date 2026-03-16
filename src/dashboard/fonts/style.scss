@@ -1,0 +1,78 @@
+// Custom Fonts Styles
+.prad-fonts-page {
+	.prad-modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 9999;
+		animation: fadeIn 0.2s ease-in-out;
+	}
+
+	.prad-modal {
+		animation: slideUp 0.3s ease-out;
+		max-height: 90vh;
+		overflow-y: auto;
+	}
+
+	.prad-font-item {
+		transition: all 0.2s ease;
+		border: 1px solid transparent;
+		border-radius: 12px;
+		border: 1px solid #d5dad4;
+		box-shadow: 0px 2px 4px 0px #46571d14;
+		&:hover {
+			border-color: var(--prad-base4);
+		}
+	}
+
+	.prad-font-preview {
+		// padding: 12px;
+		background: var(--prad-base1);
+		border-radius: 6px;
+		border: 1px dashed var(--prad-base4);
+	}
+
+	.prad-file-input {
+		cursor: pointer;
+
+		&::-webkit-file-upload-button {
+			cursor: pointer;
+		}
+	}
+
+	.prad-help-message {
+		font-size: 12px;
+		color: var(--prad-base6);
+		margin-top: 4px;
+	}
+
+	code {
+		padding: 2px 6px;
+		border-radius: 3px;
+		font-family: "Courier New", monospace;
+		font-size: 13px;
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slideUp {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}

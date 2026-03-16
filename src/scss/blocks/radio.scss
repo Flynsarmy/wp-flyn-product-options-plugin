@@ -1,0 +1,25 @@
+.prad-type-radio-input .prad-input-container {
+	input[type="radio"] {
+		appearance: none !important;
+		position: absolute !important;
+		opacity: 0 !important;
+		&:checked {
+			& + label .prad-radio-mark .prad-radio-dot {
+				display: block !important;
+			}
+		}
+	}
+	.prad-radio-mark {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: content-box;
+	}
+	.prad-radio-dot {
+		display: none;
+	}
+	label {
+		cursor: pointer;
+		margin: 0 !important;
+	}
+}

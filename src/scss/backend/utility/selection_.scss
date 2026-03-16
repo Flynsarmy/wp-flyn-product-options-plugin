@@ -1,0 +1,23 @@
+// Selection utilities
+.prad-select {
+	&-none {
+		user-select: none;
+	}
+	&-text {
+		user-select: text;
+	}
+	&-all {
+		user-select: all;
+	}
+}
+.prad-selection {
+	&-none {
+		user-select: none;
+	}
+	&-text {
+		user-select: text;
+	}
+	&-all {
+		user-select: all;
+	}
+}

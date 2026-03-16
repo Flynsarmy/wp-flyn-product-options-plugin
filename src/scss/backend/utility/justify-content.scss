@@ -1,0 +1,94 @@
+.prad-justify {
+	&-center {
+		justify-content: center;
+	}
+	&-end {
+		justify-content: end;
+	}
+	&-start {
+		justify-content: start;
+	}
+	&-between {
+		justify-content: space-between;
+	}
+}
+@media (max-width: 1024px) {
+	.prad-mlg-justify {
+		&-center {
+			justify-content: center;
+		}
+		&-right {
+			justify-content: right;
+		}
+		&-left {
+			justify-content: left;
+		}
+		&-between {
+			justify-content: space-between;
+		}
+	}
+}
+@media (max-width: 960px) {
+	.prad-md-justify {
+		&-center {
+			justify-content: center;
+		}
+		&-right {
+			justify-content: right;
+		}
+		&-left {
+			justify-content: left;
+		}
+		&-between {
+			justify-content: space-between;
+		}
+	}
+}
+@media (max-width: 678px) {
+	.prad-lsm-justify {
+		&-center {
+			justify-content: center;
+		}
+		&-right {
+			justify-content: right;
+		}
+		&-left {
+			justify-content: left;
+		}
+		&-between {
+			justify-content: space-between;
+		}
+	}
+}
+@media (max-width: 530px) {
+	.prad-msm-justify {
+		&-center {
+			justify-content: center;
+		}
+		&-right {
+			justify-content: right;
+		}
+		&-left {
+			justify-content: left;
+		}
+		&-between {
+			justify-content: space-between;
+		}
+	}
+}
+@media (max-width: 420px) {
+	.prad-ssm-justify {
+		&-center {
+			justify-content: center;
+		}
+		&-right {
+			justify-content: right;
+		}
+		&-left {
+			justify-content: left;
+		}
+		&-between {
+			justify-content: space-between;
+		}
+	}
+}

@@ -1,0 +1,27 @@
+.prad-mobile-menu {
+	@media (max-width: 1025px) {
+		top: 0 !important;
+	}
+
+	.prad-menu-items {
+		@media (max-width: 1025px) {
+			margin-top: 12px;
+		}
+
+		.prad-menu-item {
+			@media (max-width: 1025px) {
+				width: 100% !important;
+				text-align: center !important;
+				padding: 4px 8px !important;
+				background: whitesmoke;
+				border-radius: 4px;
+			}
+			.prad-active {
+				@media (max-width: 1025px) {
+					background: var(--prad-color-primary);
+					color: var(--prad-color-text-reverse);
+				}
+			}
+		}
+	}
+}

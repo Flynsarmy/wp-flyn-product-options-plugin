@@ -1,0 +1,15 @@
+.prad-product-block-variation-select {
+	width: 100%;
+	.prad-select-options {
+		max-width: max-content;
+		width: max-content;
+		.prad-select-option {
+			text-align: left;
+		}
+	}
+}
+.wp-theme-blocksy .prad-products-item-wrapper {
+	.prad-block-content-wrapper {
+		margin-inline: unset !important;
+	}
+}

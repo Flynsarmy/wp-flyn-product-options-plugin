@@ -1,0 +1,98 @@
+// Elessi Theme issue
+body.nasa-in-mobile.nasa-mobile-app
+	form.cart:not(.variations_form):has(.prad-addons-wrapper) {
+	display: initial !important;
+}
+body.nasa-in-mobile.nasa-mobile-app
+	form.cart:not(.variations_form):has(.prad-addons-wrapper)
+	.quantity,
+body.nasa-in-mobile.nasa-mobile-app
+	form.cart:not(.variations_form):has(.prad-addons-wrapper)
+	.single_add_to_cart_button,
+body.nasa-in-mobile.nasa-mobile-app
+	form.cart:not(.variations_form):has(.prad-addons-wrapper)
+	.nasa-buy-now {
+	display: none !important;
+}
+body.nasa-in-mobile.nasa-mobile-app
+	form.cart:not(.variations_form):has(.prad-addons-wrapper)::after {
+	border-bottom: none !important;
+}
+body.nasa-in-mobile.nasa-mobile-app
+	form.variations_form:has(.prad-addons-wrapper) {
+	overflow: scroll !important;
+}
+body.nasa-in-mobile.nasa-mobile-app
+	form.variations_form:has(.prad-addons-wrapper)
+	.ns-info-variants {
+	overflow: unset !important;
+}
+body.nasa-in-mobile.nasa-mobile-app
+	form.variations_form:has(.prad-addons-wrapper)
+	.ns-info-btns {
+	position: static !important;
+}
+body.nasa-in-mobile.nasa-mobile-app
+	#wrapper
+	form.variations_form:has(.prad-addons-wrapper)
+	.woocommerce-variation-add-to-cart {
+	flex-wrap: wrap !important;
+}
+.prad-disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+/* Sober Theme */
+.theme-sober.prad-page {
+	.prad-parent label {
+		&::after,
+		&::before {
+			content: unset;
+		}
+		padding-left: 0;
+	}
+	.prad-block-price ins {
+		background: unset !important;
+	}
+	.prad-input-date-icon,
+	.prad-input-time-icon {
+		svg {
+			fill: none;
+		}
+	}
+}
+
+/* Sydney Theme */
+.prad-page .sydney-single-addtocart-wrapper {
+	flex-wrap: wrap;
+}
+/* betheme Theme */
+.prad-page.theme-betheme .prad-block-heading {
+	text-align: left;
+}
+/* shop-mania Theme */
+.prad-page.theme-th-shop-mania {
+	.woocommerce-variation-add-to-cart {
+		flex-wrap: wrap;
+	}
+	.prad-addons-wrapper input[type="number"] {
+		text-align: left !important;
+	}
+}
+.prad-page .prad-block-price ins {
+	background: unset !important;
+}
+/* Soledad Theme */
+.theme-soledad.prad-page .woocommerce-mini-cart dl.prad-processed {
+	display: block;
+}
+
+.prad-overflow-x-hidden {
+	overflow-x: hidden;
+}
+
+.prad-overflow-y-auto {
+	overflow-y: auto;
+}

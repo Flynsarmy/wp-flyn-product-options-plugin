@@ -1,0 +1,18 @@
+// Opacity utilities
+.prad-opacity {
+	&-full {
+		opacity: 1;
+	}
+	&-dense {
+		opacity: 0.7;
+	}
+	&-half {
+		opacity: 0.5;
+	}
+	&-thin {
+		opacity: 0.3;
+	}
+	&-none {
+		opacity: 0;
+	}
+}

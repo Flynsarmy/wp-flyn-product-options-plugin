@@ -1,0 +1,89 @@
+// Variables
+:root {
+	--prad-transition-md: 0.5s;
+	--prad-transition-smd: 0.3s;
+	--prad-transition-sm: 0.2s;
+
+	--prad-font-weight-extra: 700;
+	--prad-font-weight-bold: 600;
+	--prad-font-weight-semi: 500;
+	--prad-font-weight-regular: 400;
+
+	--prad-border-radius-lg: 4px;
+	--prad-border-radius-slg: 4px;
+	--prad-border-radius-md: 4px;
+	--prad-border-radius-smd: 4px;
+	--prad-border-radius-sm: 2px;
+
+	--prad-color-primary: #86a62c;
+	--prad-color-secondary: #46571d;
+	--prad-color-tertiary: #f2ae40;
+	--prad-color-medium: #e8f1d0;
+	--prad-color-light: #fafdef;
+	--prad-color-dark: #1e280b;
+	--prad-color-dark-soft: rgb(30, 40, 11, 50%);
+
+	--prad-color-required: #df1c41;
+	--prad-color-error: #ff2424;
+	--prad-color-reset: #037fff;
+	--prad-color-active: #192217;
+	--prad-color-inactive: #80837f;
+
+	--prad-color-base-one: #ffffff;
+	--prad-color-base-two: #f3f5f3;
+	--prad-color-base-three: #d4d9d4;
+	--prad-color-base-three-soft: rgb(212, 217, 212, 50%);
+
+	--prad-color-text-dark: #0b0e04;
+	--prad-color-text-selection: #262a25;
+	--prad-color-text-medium: #3a3e39;
+	--prad-color-text-light: #575e55;
+	--prad-color-text-body: #7c807c;
+	--prad-color-text-reverse: #ffffff;
+
+	--prad-color-border-primary: #d5dad4;
+	--prad-color-border-secondary: #d5dad4;
+	--prad-color-border-light: #e2e9e2;
+
+	--prad-color-facebook: #375dfb;
+
+	--prad-color-orange-base: #f17b2c;
+	--prad-color-blue-light: #eff3ff;
+
+	--prad-color-shadow-primary: rgba(91, 95, 88, 0.078);
+	--prad-color-shadow-primary-dark: rgba(92, 95, 88, 0.16);
+	--prad-color-shadow-tertiary: rgba(0, 0, 0, 0.2);
+	--prad-color-shadow-medium-tertiary: rgba(0, 0, 0, 0.5);
+	--prad-color-shadow-deep-tertiary: rgba(0, 0, 0, 0.8);
+
+	--prad-line-height-extra: 1.5em;
+	--prad-line-height-medium: 1.43em;
+	--prad-line-height-regular: 1.2em;
+
+	--prad-font-body: "Inter", sans-serif;
+	--prad-font-btn: "Inter", sans-serif;
+	--prad-font-heading: "Inter", sans-serif;
+	--prad-font-body-size: 14px;
+
+	--prad-btn-font-size: 14px;
+	--prad-btn-font-weight: 500;
+	--prad-btn-line-height: 1.429em;
+	--prad-btn-vertical-padding: 10px;
+	--prad-btn-horizontal-padding: 20px;
+
+	--prad-btn-slider-width: 44px;
+	--prad-btn-slider-height: 24px;
+}
+
+body {
+	font-family: var(--prad-font-body);
+	font-size: var(--prad-font-body-size);
+	line-height: var(--prad-line-height-extra);
+	color: var(--prad-color-text-medium);
+	background-color: var(--prad-color-base-two);
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}

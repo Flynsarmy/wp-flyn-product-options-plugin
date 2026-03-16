@@ -1,0 +1,12 @@
+// Float utilities
+.prad-float {
+	&-left {
+		float: left;
+	}
+	&-right {
+		float: right;
+	}
+	&-none {
+		float: none;
+	}
+}

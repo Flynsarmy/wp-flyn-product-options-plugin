@@ -1,0 +1,10 @@
+.prad-number-field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	&.prad-number-field-inline {
+		flex-direction: row;
+		gap: 20px;
+		align-items: center;
+	}
+}

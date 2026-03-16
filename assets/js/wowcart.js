@@ -1,0 +1,32 @@
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/frontend_script/cart/cartMeta.js"
+/*!**********************************************!*\
+  !*** ./src/frontend_script/cart/cartMeta.js ***!
+  \**********************************************/
+() {
+
+eval("{document.addEventListener('DOMContentLoaded', function () {\n  const $ = jQuery;\n  const __ = wp?.i18n?.__ || (text => text);\n  const moreText = __('Show More', 'product-addons');\n  const lessText = __('Show Less', 'product-addons');\n  function runCartStyles() {\n    // Handle both <dl> and <ul> cases\n    const selectors = ['dl.variation', 'ul.wc-block-components-product-details', 'ul.wc-item-meta'];\n    $(selectors.join(',')).each(function () {\n      const container = this;\n      const $container = $(container);\n\n      // Prevent double processing\n      if ($container.hasClass('prad-processed')) {\n        return;\n      }\n      $container.addClass('prad-processed');\n      let items = [];\n      if (container.tagName.toLowerCase() === 'dl') {\n        // Group dt/dd pairs\n        const children = Array.from(container.children);\n        for (let i = 0; i < children.length; i += 2) {\n          const pair = children.slice(i, i + 2);\n          if (pair.length === 2) {\n            items.push(pair);\n          }\n        }\n      } else if (container.tagName.toLowerCase() === 'ul') {\n        // Each <li> is a separate item\n        items = Array.from(container.children).map(function (li) {\n          return [li];\n        });\n      }\n      if (items.length > 3) {\n        // Wrap the container if not already wrapped\n        if (!$container.parent().hasClass('prad-variation-container')) {\n          $container.wrap('<div class=\"prad-variation-container\"></div>');\n        }\n\n        // Measure expanded height first\n        $container.css('max-height', 'none');\n        const expandedHeight = $container.outerHeight();\n\n        // Hide extra items\n        for (let i = 3; i < items.length; i++) {\n          items[i].forEach(function (element) {\n            element.classList.add('prad-collapsed-hidden');\n          });\n        }\n\n        // Measure collapsed height\n        const collapsedHeight = $container.outerHeight();\n\n        // Set initial collapsed state\n        $container.css({\n          'max-height': collapsedHeight,\n          transition: 'max-height 0.4s ease'\n        });\n\n        // Create toggle button\n        const $toggle = $('<div class=\"prad-show-more-btn\">' + moreText + '</div>');\n        $toggle.css('padding-left', $container.css('padding-left'));\n\n        // Store expanded state\n        let isExpanded = false;\n        $container.parent().append($toggle);\n        $toggle.on('click', function (e) {\n          e.stopPropagation();\n          if (!isExpanded) {\n            // Expand\n            items.forEach(function (itemGroup) {\n              itemGroup.forEach(function (element) {\n                element.classList.remove('prad-collapsed-hidden');\n              });\n            });\n            $container.css('max-height', expandedHeight);\n            $toggle.text(lessText);\n            isExpanded = true;\n          } else {\n            // Collapse\n            $container.css('max-height', collapsedHeight);\n            $toggle.text(moreText);\n            isExpanded = false;\n\n            // After transition, hide again\n            const onTransitionEnd = function () {\n              if (!isExpanded) {\n                for (let i = 3; i < items.length; i++) {\n                  items[i].forEach(function (element) {\n                    element.classList.add('prad-collapsed-hidden');\n                  });\n                }\n              }\n              container.removeEventListener('transitionend', onTransitionEnd);\n            };\n            container.addEventListener('transitionend', onTransitionEnd);\n          }\n        });\n      }\n    });\n  }\n\n  // Set initial opacity low\n  $(document).find('.variation, .wc-block-components-product-details').css('opacity', 0.3);\n\n  // Run collapsing behavior\n  runCartStyles();\n\n  // Restore opacity after initial setup\n  setTimeout(function () {\n    $(document).find('.variation, .wc-block-components-product-details').css('opacity', 1);\n  }, 300);\n\n  // General MutationObserver for dynamic WooCommerce changes\n  const observerTargets = ['.woocommerce-checkout-review-order', '.woocommerce-cart-form', '.woocommerce', 'body' // <- last resort\n  ];\n  observerTargets.forEach(function (selector) {\n    const $target = $(selector);\n    if ($target.length > 0) {\n      const observer = new MutationObserver(function (mutations) {\n        let shouldRun = false;\n        mutations.forEach(function (mutation) {\n          if (mutation.addedNodes.length > 0 || mutation.type === 'childList') {\n            shouldRun = true;\n          }\n        });\n        if (shouldRun) {\n          setTimeout(runCartStyles, 50);\n        }\n      });\n      const config = {\n        childList: true,\n        subtree: true\n      };\n      observer.observe($target[0], config);\n    }\n  });\n});\n\n//# sourceURL=webpack://product-addons/./src/frontend_script/cart/cartMeta.js?\n}");
+
+/***/ }
+
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./src/frontend_script/cart/cartMeta.js"]();
+/******/ 	
+/******/ })()
+;

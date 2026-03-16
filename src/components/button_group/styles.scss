@@ -1,0 +1,52 @@
+.prad-btn-group-field {
+	display: flex;
+	flex-direction: column;
+	// gap: 4px;
+	&._inline {
+		flex-direction: row;
+		gap: 20px;
+		align-items: center;
+	}
+	.prad-btn-group-field-title {
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--prad-color-text-medium);
+	}
+	.prad-btn-group-field-wrapper {
+		// width: 100%;
+		background: #f3f5f3;
+		border-radius: 8px;
+		padding: 3px; // Note: Adjusted padding to match with other fields. Previously 4px
+		display: flex;
+		border: 1px solid #9fa79d;
+		position: relative;
+		.prad-btn-group-option {
+			text-wrap-mode: nowrap;
+			width: 100%;
+			text-align: center;
+			padding: 6px 10px;
+			border-radius: 4px;
+			font-size: 14px;
+			font-weight: 400;
+			position: relative;
+			color: #575e55;
+			z-index: 1;
+			&._active {
+				font-weight: 500;
+				color: #fff;
+				background-color: var(--prad-color-dark);
+			}
+			cursor: pointer;
+		}
+	}
+	.prad-btn-group-highlight {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: calc(100% - 8px);
+		border-radius: 4px;
+		background-color: var(--prad-color-primary);
+		transition: all 0.3s ease;
+		z-index: 0;
+	}
+}

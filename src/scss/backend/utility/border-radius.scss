@@ -1,0 +1,26 @@
+// Border radius utilities
+.prad-b {
+	&r {
+		&-lg {
+			border-radius: var(--prad-border-radius-lg);
+		}
+		&-slg {
+			border-radius: var(--prad-border-radius-slg);
+		}
+		&-md {
+			border-radius: var(--prad-border-radius-md);
+		}
+		&-smd {
+			border-radius: var(--prad-border-radius-smd);
+		}
+		&-sm {
+			border-radius: var(--prad-border-radius-sm);
+		}
+		&-round {
+			border-radius: 50%;
+		}
+		&-100 {
+			border-radius: 100px;
+		}
+	}
+}

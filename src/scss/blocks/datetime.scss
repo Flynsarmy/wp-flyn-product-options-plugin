@@ -1,0 +1,236 @@
+input:is(
+		[type="text"],
+		[type="password"],
+		[type="email"],
+		[type="tel"],
+		[type="url"],
+		[type="search"],
+		[type="number"],
+		[type="date"],
+		[type="time"],
+		[type="datetime-local"],
+		[type="month"],
+		[type="week"],
+		[type="checkbox"],
+		[type="radio"],
+		[type="file"],
+		[type="image"],
+		[type="button"],
+		[type="submit"],
+		[type="reset"],
+		[type="hidden"]
+	).prad-custom-date-input:focus {
+	outline: 0 !important;
+	box-shadow: none !important;
+	border-color: var(--prad-color-border-primary) !important;
+	background-color: none !important;
+}
+.prad-custom-datetime-picker-container {
+	position: relative;
+	.added_to_cart {
+		display: none;
+	}
+	.prad-custom-date-picker,
+	.prad-custom-time-field-picker {
+		display: none;
+		position: absolute;
+		width: fit-content;
+		max-width: 480px;
+		background: var(--prad-color-base-one);
+		border: 1px solid var(--prad-color-border-secondary);
+		border-radius: var(--prad-border-radius-smd);
+		box-shadow: 0px 16px 32px -12px var(--prad-color-shadow-primary);
+		z-index: 1000;
+		margin-top: 4px !important;
+		top: 100%;
+	}
+	.prad-custom-calendar-header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		padding: 12px !important;
+		border-bottom: 1px solid var(--prad-color-border-secondary);
+		.prad-custom-next-month,
+		.prad-custom-prev-month {
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 4px 8px !important;
+			font-size: 16px;
+			box-shadow: none;
+			color: var(--prad-color-text-dark);
+			&:hover:not(:disabled) {
+				color: var(--prad-color-primary);
+			}
+			&:disabled {
+				color: var(--prad-color-inactive);
+				cursor: not-allowed;
+			}
+		}
+		select.prad-select {
+			font-size: 14px;
+			line-height: 20px;
+			color: var(--prad-color-text-dark);
+			height: 32px;
+			max-height: 32px;
+			min-width: 110px;
+			padding-inline-end: 25px !important;
+			padding: 0 28px 0 12px !important;
+			border-radius: var(--prad-border-radius-smd);
+			border: 1px solid var(--prad-color-border-secondary);
+			cursor: pointer;
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			background-image: url("data:image/svg+xml,%3Csvg width='21' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.5.379L20.621 2.5 10.5 12.621.379 2.5 2.5.379l8 8z' fill='%234F5D6D' fill-rule='nonzero'/%3E%3C/svg%3E");
+			background-repeat: no-repeat, repeat;
+			background-size:
+				8px auto,
+				100%;
+			background-position:
+				right 10px top 50%,
+				0 0;
+			&.prad-custom-month-dropdown {
+				margin-right: 8px !important;
+			}
+		}
+	}
+	.prad-custom-calendar-body {
+		.prad-custom-date-container {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			padding: 12px 16px 6px !important;
+			gap: 8px;
+		}
+		.prad-custom-weekdays {
+			margin-bottom: -12px !important;
+			font-size: 12px;
+			line-height: 16px;
+			font-weight: 500;
+			text-align: center;
+			text-transform: uppercase;
+			color: var(--prad-color-text-dark);
+		}
+		.prad-custom-days {
+			.prad-custom-day {
+				padding: 8px 12.5px !important;
+				cursor: pointer;
+				border-radius: var(--prad-border-radius-md);
+				text-align: center;
+				font-size: 14px;
+				line-height: 20px;
+				color: var(--prad-color-text-medium);
+				&:hover:not(.prad-disabled) {
+					background-color: var(--prad-color-base-two);
+					color: var(--prad-color-primary);
+				}
+				&.prad-selected {
+					background-color: var(--prad-color-primary);
+					color: var(--prad-color-text-reverse);
+				}
+				&.prad-disabled {
+					color: var(--prad-color-inactive);
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+	.prad-custom-time-picker {
+		padding: 16px !important;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.prad-custom-time-picker select.prad-select {
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--prad-color-text-dark);
+		border-radius: var(--prad-border-radius-smd);
+		border: 1px solid var(--prad-color-border-secondary);
+		height: 32px;
+		max-height: 32px;
+		min-width: 70px;
+		padding-inline-end: 25px !important;
+		padding: 0 28px 0 12px !important;
+		cursor: pointer;
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		background-image: url("data:image/svg+xml,%3Csvg width='21' height='13' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.5.379L20.621 2.5 10.5 12.621.379 2.5 2.5.379l8 8z' fill='%234F5D6D' fill-rule='nonzero'/%3E%3C/svg%3E");
+		background-repeat: no-repeat, repeat;
+		background-size:
+			8px auto,
+			100%;
+		background-position:
+			right 10px top 50%,
+			0 0;
+	}
+}
+.prad-time-picker-container {
+	position: relative;
+}
+.prad-custom-time-field-picker {
+	.prad-custom-dropdown .prad-custom-option.prad-selected {
+		background-color: var(--prad-color-primary);
+		color: var(--prad-color-text-reverse);
+	}
+}
+.prad-custom-dropdown {
+	position: relative;
+	width: 52px;
+	box-sizing: content-box;
+	margin-right: 10px;
+	border: 1px solid var(--prad-color-border-secondary);
+	border-radius: 4px;
+	display: flex;
+	gap: 4px;
+	justify-content: space-between;
+	align-items: center;
+	padding: 6px 8px;
+	color: var(--prad-color-text-dark);
+	cursor: pointer;
+	.prad-custom-selected-icon {
+		transition: transform var(--prad-transition-md);
+		transform: rotate(0deg);
+	}
+	&.prad-custom-active .prad-custom-selected-icon {
+		transform: rotate(180deg);
+	}
+	.prad-custom-selected {
+		background-color: var(--prad-color-base-one);
+		user-select: none;
+		font-size: 14px;
+	}
+	.prad-custom-options {
+		display: none;
+		position: absolute;
+		background-color: var(--prad-color-base-one);
+		border: 1px solid var(--prad-color-border-secondary);
+		border-radius: 4px;
+		max-height: 150px;
+		overflow-y: auto;
+		z-index: 99999;
+		width: 100%;
+		top: calc(100% + 3px);
+		left: 0;
+	}
+	.prad-custom-option {
+		padding: 8px;
+		cursor: pointer;
+		text-align: center;
+		color: var(--prad-color-text-dark);
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--prad-color-text-medium);
+		&:hover {
+			background: var(--prad-color-base-two);
+		}
+		&.prad-custom-disabled {
+			pointer-events: none;
+			color: var(--prad-color-inactive);
+		}
+	}
+}

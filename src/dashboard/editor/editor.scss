@@ -1,0 +1,34 @@
+.prad-editor-small-subheader {
+	@media (max-width: 1025px) {
+		display: flex;
+		flex-direction: column-reverse;
+		padding: 16px !important;
+		background: white;
+	}
+
+	.prad-editor-small-subheader-left {
+		.prad-btn-group {
+			@media (max-width: 1025px) {
+				width: 100%;
+				flex-wrap: nowrap;
+			}
+			.prad-editor-small-subheader-submit {
+				@media (max-width: 1025px) {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.prad-editor-small-subheader-right {
+		@media (max-width: 1025px) {
+			flex-direction: column;
+		}
+		.prad-editor-small-subheader-title,
+		.prad-editor-small-subheader-assign {
+			@media (max-width: 1025px) {
+				width: 100%;
+			}
+		}
+	}
+}

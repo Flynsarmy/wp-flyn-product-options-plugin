@@ -1,0 +1,30 @@
+.prad-item {
+	&-center {
+		align-items: center;
+	}
+	&-stretch {
+		align-items: stretch;
+	}
+	&-end {
+		align-items: end;
+	}
+	&-start {
+		align-items: start;
+	}
+}
+@media (max-width: 1024px) {
+	.prad-mlg-item {
+		&-center {
+			align-items: center;
+		}
+		&-stretch {
+			align-items: stretch;
+		}
+		&-end {
+			align-items: end;
+		}
+		&-start {
+			align-items: start;
+		}
+	}
+}

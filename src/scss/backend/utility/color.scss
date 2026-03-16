@@ -1,0 +1,68 @@
+// Color utilities
+.prad-color {
+	&-primary {
+		color: var(--prad-color-primary);
+	}
+	&-secondary {
+		color: var(--prad-color-secondary);
+	}
+	&-tertiary {
+		color: var(--prad-color-tertiary);
+	}
+	&-medium {
+		color: var(--prad-color-medium);
+	}
+	&-light {
+		color: var(--prad-color-light);
+	}
+	&-dark {
+		color: var(--prad-color-dark);
+	}
+	&-border-secondary {
+		color: var(--prad-color-border-secondary);
+	}
+	&-required {
+		color: var(--prad-color-required);
+	}
+	&-error {
+		color: var(--prad-color-error);
+	}
+	&-inactive {
+		color: var(--prad-color-inactive);
+	}
+	&-active {
+		color: var(--prad-color-active);
+	}
+	&-text {
+		&-dark {
+			color: var(--prad-color-text-dark);
+		}
+		&-medium {
+			color: var(--prad-color-text-medium);
+		}
+		&-light {
+			color: var(--prad-color-text-light);
+		}
+		&-reverse {
+			color: var(--prad-color-text-reverse);
+		}
+		&-body {
+			color: var(--prad-color-text-body);
+		}
+	}
+
+	&-facebook {
+		color: var(--prad-color-facebook);
+	}
+
+	&-orange {
+		&-base {
+			color: var(--prad-color-orange-base);
+		}
+	}
+	&-blue {
+		&-light {
+			color: var(--prad-color-blue-light);
+		}
+	}
+}

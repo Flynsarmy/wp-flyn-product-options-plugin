@@ -1,0 +1,37 @@
+.prad-text {
+	&-center {
+		text-align: center;
+	}
+	&-start {
+		text-align: start;
+	}
+	&-end {
+		text-align: end;
+	}
+	&-upper {
+		text-transform: uppercase;
+	}
+	&-capital {
+		text-transform: capitalize;
+	}
+	&-lowercase {
+		text-transform: lowercase;
+	}
+	&-underline {
+		text-decoration: underline;
+	}
+	&-none {
+		text-transform: none;
+		text-decoration: none;
+		&:focus {
+			box-shadow: none;
+			outline: 0;
+		}
+	}
+	&-nowrap {
+		white-space: nowrap;
+	}
+	&-wrap {
+		white-space: wrap;
+	}
+}

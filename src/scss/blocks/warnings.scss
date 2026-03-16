@@ -1,0 +1,122 @@
+.prad-minmax-warning-message {
+	opacity: 0;
+	transition: opacity 0.6s ease;
+
+	&.prad-animate-start {
+		opacity: 1;
+	}
+}
+
+.prad-has-req-warning {
+	--prad-color-req: #e83629;
+
+	&.prad-block-radio,
+	&.prad-block-checkbox {
+
+		.prad-radio-mark,
+		.prad-checkbox-mark {
+			border-color: var(--prad-color-req) !important;
+		}
+	}
+
+	&.prad-block-select .prad-select-box {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	&.prad-block-font_picker .prad-select-box {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	&.prad-block-products {
+
+		.prad-swatch-item,
+		.prad-radio-mark,
+		.prad-checkbox-mark {
+			border-color: var(--prad-color-req) !important;
+		}
+	}
+
+	&.prad-block-button .prad-button-item {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	&.prad-block-img-swatches .prad-swatch-item {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	&.prad-block-color-switcher .prad-swatch-item {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	&.prad-block-color-picker,
+	&.prad-block-datetime,
+	&.prad-block-url,
+	&.prad-block-email,
+	&.prad-block-number,
+	&.prad-block-textfield,
+	&.prad-block-textarea {
+		.prad-block-input {
+			border-color: var(--prad-color-req) !important;
+		}
+	}
+
+	&.prad-block-telephone .prad-tel-container {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	&.prad-block-upload .prad-drop-zone.prad-upload-container {
+		border-color: var(--prad-color-req) !important;
+	}
+
+	.prad-req-warning-message {
+		color: var(--prad-color-req);
+		margin-top: 8px;
+	}
+}
+
+.prad-minmax-warning-message {
+	--prad-color-minmax: #e83629;
+	color: var(--prad-color-minmax);
+	margin-top: 8px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.prad-toaster-warning {
+	position: fixed;
+	top: 40px;
+	color: #ffffff;
+	padding: 16px;
+	border-radius: 6px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	z-index: 10000;
+	font-size: 14px;
+	max-width: 300px;
+	min-width: 280px;
+	line-height: normal;
+	box-sizing: border-box;
+
+	&.prad-toaster-warning-error {
+		background-color: #e83629;
+	}
+
+	&.prad-toaster-warning-warning {
+		background-color: #f86e24;
+	}
+
+	.prad-toaster-waring-content {
+		display: flex;
+		align-items: stretch;
+		gap: 8px;
+	}
+
+	.prad-toaster-waring-icon svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.prad-toaster-waring-message {
+		color: #ffffff;
+	}
+}

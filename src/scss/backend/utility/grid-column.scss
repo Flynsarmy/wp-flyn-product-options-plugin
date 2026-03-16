@@ -1,0 +1,116 @@
+.prad-column {
+	&-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+	&-3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+	&-2 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	&-friction {
+		grid-template-columns: 200px 1fr;
+	}
+
+	&-eight {
+		grid-template-columns:
+			18px minmax(100px, 1fr) minmax(20px, 0.4fr) minmax(60px, 1fr)
+			minmax(20px, 0.45fr) minmax(20px, 0.45fr) 30px 24px;
+	}
+	&-seven {
+		grid-template-columns:
+			18px minmax(100px, 1fr) minmax(60px, 0.8fr) minmax(20px, 0.4fr)
+			minmax(20px, 0.4fr) 42px 24px;
+	}
+	&-four {
+		grid-template-columns:
+			minmax(100px, 1fr) minmax(60px, 0.8fr) minmax(20px, 0.4fr)
+			minmax(20px, 0.4fr);
+	}
+	&-five {
+		color: var(--prad-color-text-light);
+		grid-template-columns:
+			minmax(100px, 1fr) minmax(20px, 0.3fr) minmax(60px, 0.8fr) minmax(
+				20px,
+				0.4fr
+			)
+			minmax(20px, 0.4fr);
+	}
+	&-three {
+		grid-template-columns: minmax(100px, 1fr) minmax(20px, 0.4fr) minmax(
+				20px,
+				0.4fr
+			);
+	}
+	&-two {
+		grid-template-columns: 18px minmax(240px, 2.8fr) minmax(110px, 1.2fr) 24px;
+	}
+}
+@media (max-width: 1024px) {
+	.prad-mlg-column {
+		&-4 {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		&-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		&-2 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		&-1 {
+			grid-template-columns: repeat(1, 1fr);
+		}
+	}
+}
+@media (max-width: 960px) {
+	.prad-md-column {
+		&-4 {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		&-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		&-2 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}
+@media (max-width: 678px) {
+	.prad-lsm-column {
+		&-4 {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		&-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		&-2 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}
+@media (max-width: 530px) {
+	.prad-msm-column {
+		&-4 {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		&-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		&-2 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}
+@media (max-width: 420px) {
+	.prad-ssm-column {
+		&-4 {
+			grid-template-columns: repeat(4, 1fr);
+		}
+		&-3 {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		&-2 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}

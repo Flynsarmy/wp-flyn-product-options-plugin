@@ -1,0 +1,20 @@
+.prad-lh {
+	&-extra {
+		line-height: var(--prad-line-height-extra);
+	}
+	&-medium {
+		line-height: var(--prad-line-height-medium);
+	}
+	&-regular {
+		line-height: var(--prad-line-height-regular);
+	}
+	&-btn {
+		line-height: var(--prad-btn-line-height);
+	}
+	&-1 {
+		line-height: 1em;
+	}
+	&-0 {
+		line-height: 0;
+	}
+}

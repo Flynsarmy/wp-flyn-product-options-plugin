@@ -1,0 +1,105 @@
+/* ---------------------------
+	------ > 17.x Flags ----
+------------------------------ */
+.prad-tel-flag {
+	height: 12px;
+	width: 16px;
+	background-image: url("../img/allflags.webp");
+	background-repeat: no-repeat;
+	background-size: 3904px 12px;
+	background-position: -288px 0px;
+}
+.prad-tel-container {
+	border: 1px solid;
+	border-radius: 4px;
+	align-items: stretch;
+	input.prad-block-input:is([type="tel"]) {
+		border: none !important;
+		&:focus {
+			border: none !important;
+			box-shadow: none !important;
+			outline: none !important;
+			background: none !important;
+		}
+	}
+	.prad-dial-code-show {
+		padding: 0 10px;
+		word-break: keep-all;
+	}
+	&.prad-tel-flag-active input.prad-block-input:is([type="tel"]) {
+		padding-left: 0px !important;
+	}
+}
+.prad-tel-country-wrapper {
+	background: #efefef;
+	width: 56px;
+	display: flex;
+	align-items: center;
+	border-radius: 4px 0 0 4px;
+	cursor: pointer;
+	padding: 0 10px;
+	.prad-tel-country-list-container {
+		width: 300px;
+		padding: 20px;
+		border-radius: 4px;
+		background: #ffffff;
+		top: calc(100% + 4px);
+		left: 0;
+		opacity: 0;
+		transform: translateY(-10px);
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+		pointer-events: none;
+		position: absolute;
+		z-index: 999;
+		display: block;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.135);
+		border: 1px solid #b6b6b8;
+	}
+	.prad-country-search input {
+		border: 1px solid #b6b6b8;
+		box-shadow: none;
+		outline: navajowhite;
+		border-radius: 4px;
+		width: 100%;
+	}
+	.prad-tel-country-list-container.prad-flag-drop-visible {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+	.prad-tel-country-list-container.prad-flag-drop-hidden {
+		opacity: 0;
+		transform: translateY(-10px);
+		pointer-events: none;
+	}
+	.prad-country-list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-top: 20px;
+		overflow: auto;
+		max-height: 200px;
+		padding-right: 8px;
+		.prad-country-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 2px 10px;
+			border-radius: 4px;
+		}
+		.prad-country-item:hover,
+		.prad-country-item-selected {
+			background-color: #ececec;
+		}
+	}
+	.prad-flag-arrow {
+		display: flex;
+		align-items: center;
+		transition: transform 0.3s ease;
+		&.prad-flag-arrow-rotated {
+			transform: rotate(180deg);
+		}
+	}
+}

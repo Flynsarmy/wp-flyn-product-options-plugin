@@ -1,0 +1,98 @@
+.prad-block-upload {
+	&-title {
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--prad-color-text-dark);
+	}
+	.prad-block-upload-icon {
+		padding: 8px 12px;
+		background-color: #0f0f0f;
+		border-radius: 4px;
+		color: #fff;
+		font-size: 14px;
+		cursor: pointer;
+		svg {
+			width: 20px;
+			height: 20px;
+			color: #fff;
+		}
+	}
+}
+.prad-upload {
+	&-container {
+		padding: 16px 8.5px 12px !important;
+		text-align: center;
+	}
+	&-result {
+		&:has(> .prad-upload-item) {
+			padding: 16px 0 !important;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+	&-item {
+		display: flex;
+		align-items: stretch;
+		gap: 12px;
+		padding: 0 8.5px !important;
+	}
+}
+.prad-progress-custom {
+	width: 100%;
+	height: 4px;
+	border-radius: var(--prad-border-radius-sm);
+	appearance: none;
+	-webkit-appearance: none;
+	background-color: var(--prad-color-base-three);
+	overflow: hidden;
+	/* WebKit (Chrome, Safari) */
+	&::-webkit-progress-bar {
+		background-color: var(--prad-color-base-three);
+		border-radius: var(--prad-border-radius-sm);
+	}
+	/* Change the active progress color */
+	&::-webkit-progress-value {
+		background-color: var(--prad-color-primary);
+		border-radius: var(--prad-border-radius-sm);
+	}
+	/* Firefox */
+	&::-moz-progress-bar {
+		background-color: var(--prad-color-primary);
+		border-radius: var(--prad-border-radius-sm);
+	}
+}
+
+.prad-drop-zone.prad-upload-container {
+	border: 2px dashed #d2d2d2;
+	border-radius: var(--prad-border-radius-smd);
+	padding: 16px !important;
+	text-align: center;
+	cursor: pointer;
+	background-color: #ffffff;
+	color: var(--prad-color-text-selection);
+}
+
+.prad-drop-zone.prad-drag-over {
+	background-color: #fafdef;
+}
+.prad-file-name {
+	display: none;
+	&.prad-file-active {
+		display: block;
+	}
+}
+
+/* ---------------------------
+	------ Responsive  ----
+------------------------------ */
+@media (max-width: 640px) {
+	.prad-input-container {
+		flex-direction: column;
+		align-items: flex-start;
+		.prad-w-34,
+		.prad-w-24 {
+			width: 100%;
+		}
+	}
+}

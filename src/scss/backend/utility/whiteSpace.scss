@@ -1,0 +1,15 @@
+// White-space utilities
+.prad-space {
+	&-nowrap {
+		white-space: nowrap;
+	}
+	&-pre {
+		white-space: pre;
+	}
+	&-pre-wrap {
+		white-space: pre-wrap;
+	}
+	&-pre-line {
+		white-space: pre-line;
+	}
+}

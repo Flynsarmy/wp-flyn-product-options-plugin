@@ -1,0 +1,25 @@
+.prad-block-switch {
+	input[type="checkbox"] {
+		appearance: none !important;
+		position: absolute !important;
+		opacity: 0 !important;
+	}
+	.prad-switch {
+		&-body {
+			position: relative;
+			box-sizing: content-box;
+			flex-shrink: 0;
+		}
+		&-thumb {
+			position: absolute;
+			left: 2px;
+			top: 2px;
+			bottom: 2px;
+			border-radius: 50%;
+			transition: left var(--prad-transition-smd) ease;
+		}
+	}
+	label {
+		cursor: pointer;
+	}
+}
