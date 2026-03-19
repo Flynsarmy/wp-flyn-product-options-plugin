@@ -37,5 +37,9 @@ function flynpo_init() {
 	new Initialization();
 	$bootstrap = BlocksBootstrap::get_instance();
 	$bootstrap->init();
+
+	if ( class_exists( 'WP_CLI' ) ) {
+		\WP_CLI::add_command( 'flynpo', 'Flyn\\ProductOptions\\CLI' );
+	}
 }
 

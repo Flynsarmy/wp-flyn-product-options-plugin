@@ -1,6 +1,7 @@
 const { __ } = wp.i18n;
 import { useEffect, useRef, useState } from 'react';
 import Button from '../components/Button';
+import Dropdown from '../components/Dropdown';
 import Popup from '../components/Popup';
 import Toast from './toaster/Toast';
 
@@ -11,6 +12,10 @@ const ListImporter = ( props ) => {
 	const [ bulkIds, setBulkIds ] = useState( [] );
 	const [ progress, setProgress ] = useState( 0 );
 	const [ isUploading, setIsUploading ] = useState( false );
+	const [ showTmEpoModal, setShowTmEpoModal ] = useState( false );
+	const [ isMigrating, setIsMigrating ] = useState( false );
+	const [ migrationOutput, setMigrationOutput ] = useState( [] );
+	const [ migrationSummary, setMigrationSummary ] = useState( '' );
 
 	const [ toastMessages, setToastMessages ] = useState( {
 		state: false,
@@ -100,7 +105,101 @@ const ListImporter = ( props ) => {
 	const onClose = () => {
 		setExportData( [] );
 		setProgress( 0 );
-		fileInputRef.current.value = ''; // Reset file input
+		if ( fileInputRef.current ) {
+			fileInputRef.current.value = ''; // Reset file input
+		}
+	};
+
+	const openFileImport = () => {
+		if ( fileInputRef.current ) {
+			fileInputRef.current.click();
+		}
+	};
+
+	const openTmEpoMigration = () => {
+		setMigrationOutput( [] );
+		setMigrationSummary( '' );
+		setShowTmEpoModal( true );
+	};
+
+	const runTmEpoMigration = async () => {
+		setIsMigrating( true );
+		setMigrationOutput( [] );
+		setMigrationSummary( '' );
+
+		try {
+			const response = await wp.apiFetch( {
+				method: 'POST',
+				path: '/prad/migrate_tm_epo',
+				data: {
+					wpnonce: pradBackendData.nonce,
+					delete_existing: true,
+				},
+			} );
+
+			const logs = Array.isArray( response?.logs )
+				? response.logs.map( ( item ) => {
+					const level = item?.type
+						? `[${ String( item.type ).toUpperCase() }] `
+						: '';
+					return `${ level }${ item?.message || '' }`;
+				} )
+				: [];
+
+			setMigrationOutput( logs );
+			setMigrationSummary(
+				response?.message ||
+				__( 'TM EPO migration completed.', 'product-addons' )
+			);
+
+			if ( response?.success ) {
+				setToastMessages( {
+					status: 'success',
+					messages: [
+						response?.message ||
+							__(
+								'TM EPO migration completed.',
+								'product-addons'
+							),
+					],
+					state: true,
+				} );
+				handleChange();
+			} else {
+				setToastMessages( {
+					status: 'error',
+					messages: [
+						response?.message ||
+							__(
+								'TM EPO migration failed.',
+								'product-addons'
+							),
+					],
+					state: true,
+				} );
+			}
+		} catch ( error ) {
+			setMigrationOutput( [
+				error?.message ||
+					__(
+						'Unexpected error while running TM EPO migration.',
+						'product-addons'
+					),
+			] );
+			setMigrationSummary(
+				__( 'TM EPO migration failed.', 'product-addons' )
+			);
+			setToastMessages( {
+				status: 'error',
+				messages: [
+					error?.message ||
+						__( 'TM EPO migration failed.', 'product-addons' ),
+				],
+				state: true,
+			} );
+		} finally {
+			setIsMigrating( false );
+		}
 	};
 
 	return (
@@ -223,26 +322,161 @@ const ListImporter = ( props ) => {
 				accept="application/json"
 				ref={ fileInputRef }
 				onChange={ ( e ) => {
+					const file = e.target.files?.[ 0 ];
+					if ( ! file ) {
+						return;
+					}
+
 					const reader = new FileReader();
 					reader.onload = function ( event ) {
-						const jsonObj = JSON.parse( event.target.result );
-						if ( Array.isArray( jsonObj ) ) {
-							setExportData( jsonObj );
+						try {
+							const jsonObj = JSON.parse(
+								event.target.result
+							);
+							if ( Array.isArray( jsonObj ) ) {
+								setExportData( jsonObj );
+								return;
+							}
+
+							setToastMessages( {
+								status: 'error',
+								messages: [
+									__(
+										'Invalid import file format.',
+										'product-addons'
+									),
+								],
+								state: true,
+							} );
+						} catch ( error ) {
+							setToastMessages( {
+								status: 'error',
+								messages: [
+									error?.message ||
+										__(
+											'Unable to parse the selected JSON file.',
+											'product-addons'
+										),
+								],
+								state: true,
+							} );
 						}
 					};
-					reader?.readAsText( e.target.files[ 0 ] );
+					reader.readAsText( file );
 				} }
 			/>
-			<Button
-				value="Import"
+			<Dropdown
+				title={ __( 'Import', 'product-addons' ) }
 				iconName="import"
-				onClick={ () => {
-					fileInputRef.current.click();
-				} }
-				borderBtn={ true }
-				color="text-dark"
-				borderColor="border-secondary"
+				iconPosition="before"
+				className="prad-btn prad-btn-bordered prad-color-text-dark prad-border-default prad-bc-border-secondary prad-font-14 prad-font-semi prad-lh-btn prad-text-center prad-text-none prad-br-smd prad-gap-8"
+				labelClassName="prad-mb-0 prad-color-text-dark"
+				contentClass="prad-p-8"
+				renderContent={ () => (
+					<div className="prad-d-flex prad-flex-column prad-gap-4">
+						<div
+							className="prad-p-8 prad-cursor-pointer prad-br-smd prad-font-14 prad-color-text-dark"
+							onClick={ openFileImport }
+							role="button"
+							tabIndex="0"
+							onKeyDown={ ( e ) => {
+								if ( e.key === 'Enter' ) {
+									openFileImport();
+								}
+							} }
+						>
+							{ __( 'Import from File', 'product-addons' ) }
+						</div>
+						<div
+							className="prad-p-8 prad-cursor-pointer prad-br-smd prad-font-14 prad-color-text-dark"
+							onClick={ openTmEpoMigration }
+							role="button"
+							tabIndex="0"
+							onKeyDown={ ( e ) => {
+								if ( e.key === 'Enter' ) {
+									openTmEpoMigration();
+								}
+							} }
+						>
+							{ __( 'Import from TM EPO', 'product-addons' ) }
+						</div>
+					</div>
+				) }
 			/>
+
+			{ showTmEpoModal && (
+				<Popup
+					className="prad-w-95 prad-width-530"
+					title={ __( 'Import from TM EPO', 'product-addons' ) }
+					onClose={ () => {
+						if ( ! isMigrating ) {
+							setShowTmEpoModal( false );
+						}
+					} }
+					footerChildren={
+						<div className="prad-d-flex prad-item-center prad-gap-12 prad-ml-auto">
+							<Button
+								value={ __( 'Close', 'product-addons' ) }
+								onlyText={ true }
+								onClick={ () => {
+									if ( ! isMigrating ) {
+										setShowTmEpoModal( false );
+									}
+								} }
+								disable={ isMigrating }
+							/>
+							<Button
+								value={
+									isMigrating
+										? __( 'Running...', 'product-addons' )
+										: __(
+											'Run Migration',
+											'product-addons'
+									  )
+								}
+								smallButton={ true }
+								background="primary"
+								onClick={ runTmEpoMigration }
+								disable={ isMigrating }
+							/>
+						</div>
+					}
+				>
+					<div className="prad-font-14 prad-mb-12">
+						{ __(
+							'Migrate TM Extra Product Options global forms into Product Addons lists.',
+							'product-addons'
+						) }
+					</div>
+
+					{ migrationSummary && (
+						<div className="prad-font-13 prad-font-semi prad-mb-12">
+							{ migrationSummary }
+						</div>
+					) }
+
+					<div
+						className="prad-bg-base2 prad-br-smd prad-p-12 prad-overflow-auto prad-scrollbar"
+						style={ { maxHeight: '36vh' } }
+					>
+						<pre
+							className="prad-font-12 prad-color-text-dark"
+							style={ {
+								margin: 0,
+								whiteSpace: 'pre-wrap',
+								wordBreak: 'break-word',
+							} }
+						>
+							{ migrationOutput.length > 0
+								? migrationOutput.join( '\n' )
+								: __(
+									'Click "Run Migration" to start and view output here.',
+									'product-addons'
+								  ) }
+						</pre>
+					</div>
+				</Popup>
+			) }
 			{ toastMessages.state && (
 				<Toast
 					delay={ 2000 }

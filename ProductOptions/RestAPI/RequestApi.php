@@ -9,6 +9,7 @@
 namespace Flyn\ProductOptions\RestAPI;
 
 use Flyn\ProductOptions\Analytics;
+use Flyn\ProductOptions\MigrateTwo;
 use Flyn\ProductOptions\Xpo;
 use WP_REST_Response;
 use WC_Data_Store;
@@ -78,6 +79,13 @@ class RequestApi {
 				'endpoint'            => 'list_import',
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'list_import_callback' ),
+				'permission_callback' => array( $this, 'prad_get_admin_permissions' ),
+			),
+			// Migrate TM EPO forms to Product Addons lists.
+			array(
+				'endpoint'            => 'migrate_tm_epo',
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'migrate_tm_epo_callback' ),
 				'permission_callback' => array( $this, 'prad_get_admin_permissions' ),
 			),
 			// Delete List.
@@ -610,6 +618,73 @@ class RequestApi {
 			),
 			200
 		);
+	}
+
+	/**
+	 * Run TM EPO migration and return captured output for browser display.
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function migrate_tm_epo_callback( \WP_REST_Request $request ) {
+		$params          = $request->get_params();
+		$delete_existing = ! empty( $params['delete_existing'] );
+		$dry_run         = ! empty( $params['dry_run'] );
+
+		$migrator = new MigrateTwo();
+		$logs     = array();
+
+		$logger = static function ( string $message, string $type = 'log' ) use ( &$logs ) {
+			$logs[] = array(
+				'type'    => $type,
+				'message' => $message,
+			);
+		};
+
+		try {
+			$logger( 'Starting TM EPO -> Product Addons migration...' );
+			$result = $migrator->run( $dry_run, $delete_existing, $logger );
+
+			$summary = $dry_run
+				? sprintf(
+					'Dry run complete. Would migrate %d forms with %d warning(s).',
+					$result['migrated'],
+					count( $result['warnings'] )
+				)
+				: sprintf(
+					'Migration complete: %d migrated, %d skipped, %d warning(s).',
+					$result['migrated'],
+					$result['skipped'],
+					count( $result['warnings'] )
+				);
+
+			$logger( $summary );
+
+			return new WP_REST_Response(
+				array(
+					'success' => true,
+					'message' => $summary,
+					'logs'    => $logs,
+					'result'  => $result,
+				),
+				200
+			);
+		} catch ( \Throwable $th ) {
+			$logs[] = array(
+				'type'    => 'error',
+				'message' => $th->getMessage(),
+			);
+
+			return new WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => __( 'TM EPO migration failed.', 'flyn-product-options' ),
+					'logs'    => $logs,
+				),
+				500
+			);
+		}
 	}
 
 	/**
