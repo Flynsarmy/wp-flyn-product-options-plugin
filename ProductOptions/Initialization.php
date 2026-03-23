@@ -107,6 +107,7 @@ class Initialization {
 							'ajax'            => admin_url( 'admin-ajax.php' ),
 							'version'         => FLYNPO_VER,
 							'nonce'           => wp_create_nonce( 'prad-nonce' ),
+							'isActive'        => true,
 							'decimal_sep'     => get_option( 'woocommerce_price_decimal_sep', '.' ),
 							'num_decimals'    => get_option( 'woocommerce_price_num_decimals', '2' ),
 							'currency_pos'    => get_option( 'woocommerce_currency_pos', 'left' ),
