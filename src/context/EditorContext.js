@@ -4,18 +4,18 @@ import { iniGlobalStyle } from '../utils/common_data/commonData';
 
 const EditorContext = createContext();
 const assignType = [
-	{ value: 'all_product', label: 'All Product' },
-	{ value: 'specific_product', label: 'Specific Product' },
-	{ value: 'specific_category', label: 'Specific Category' },
+	{ value: 'all_product', label: 'All Products' },
+	{ value: 'specific_product', label: 'Specific Products' },
+	{ value: 'specific_category', label: 'Specific Categories' },
 	{
 		value: 'specific_tag',
-		label: 'Specific Tag',
+		label: 'Specific Tags',
 		isPro: true,
 		proDisabled: ! pradBackendData.isActive,
 	},
 	{
 		value: 'specific_brand',
-		label: 'Specific Brand',
+		label: 'Specific Brands',
 		isPro: true,
 		proDisabled: ! pradBackendData.isActive,
 	},
