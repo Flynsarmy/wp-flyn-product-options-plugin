@@ -74,7 +74,7 @@ class MigrateTwo {
 				$options_list  = $this->convert_epo_post_to_prad( $post, $post_warnings );
 
 				if ( ! empty( $post_warnings ) ) {
-					$warnings[ $post_id ] = $post_warnings;
+					$warnings[ 'Post ' . $post_id ] = $post_warnings;
 				}
 
 				$log(
@@ -96,7 +96,12 @@ class MigrateTwo {
 			}
 		}
 
-		$assignments = $this->migrate_product_assignments( $mappings, $dry_run, $log );
+		$assignments     = $this->migrate_product_assignments( $mappings, $dry_run, $log );
+		$direct_migrate  = $this->migrate_direct_product_forms( $dry_run, $log );
+		$migrated       += $direct_migrate['migrated'];
+		$skipped        += $direct_migrate['skipped'];
+		$assignments    += $direct_migrate['assignments'];
+		$warnings        = array_merge( $warnings, $direct_migrate['warnings'] );
 
 		$log( '', 'log' );
 		$log( "Migration complete: {$migrated} migrated, {$skipped} skipped, {$assignments} product assignments made.", 'log' );
@@ -104,8 +109,8 @@ class MigrateTwo {
 		if ( ! empty( $warnings ) ) {
 			$log( '', 'log' );
 			$log( 'Warnings:', 'log' );
-			foreach ( $warnings as $pid => $msgs ) {
-				$log( "  Post {$pid}:", 'warning' );
+			foreach ( $warnings as $source => $msgs ) {
+				$log( "  {$source}:", 'warning' );
 				foreach ( $msgs as $msg ) {
 					$log( "    - {$msg}", 'warning' );
 				}
@@ -801,47 +806,142 @@ class MigrateTwo {
 					continue;
 				}
 
-				$prad_option_id = (int) $prad_option_id;
-
-				$assigned_raw = get_post_meta( $prad_option_id, 'prad_base_assigned_data', true );
-				if ( function_exists( 'product_addons' ) ) {
-					$assigned = json_decode( product_addons()->safe_stripslashes( $assigned_raw ), true );
-				} else {
-					$assigned = json_decode( wp_unslash( $assigned_raw ), true );
-				}
-
-				if ( ! is_array( $assigned ) ) {
-					$assigned = array(
-						'aType'    => 'specific_product',
-						'includes' => array(),
-						'excludes' => array(),
-					);
-				}
-
-				if ( ! in_array( $product_id, $assigned['includes'], true ) ) {
-					$assigned['includes'][] = $product_id;
-				}
-				update_post_meta( $prad_option_id, 'prad_base_assigned_data', wp_json_encode( $assigned ) );
-
-				$meta_inc_raw = get_post_meta( $product_id, 'prad_product_assigned_meta_inc', true );
-				if ( function_exists( 'product_addons' ) ) {
-					$meta_inc = json_decode( product_addons()->safe_stripslashes( $meta_inc_raw ), true );
-				} else {
-					$meta_inc = json_decode( wp_unslash( $meta_inc_raw ), true );
-				}
-
-				$meta_inc = is_array( $meta_inc ) ? $meta_inc : array();
-
-				if ( ! in_array( $prad_option_id, $meta_inc, false ) ) {
-					$meta_inc[] = $prad_option_id;
-				}
-				update_post_meta( $product_id, 'prad_product_assigned_meta_inc', wp_json_encode( $meta_inc ) );
+				$this->assign_prad_option_to_product( $product_id, (int) $prad_option_id );
 
 				++$assignment_count;
 			}
 		}
 
 		return $assignment_count;
+	}
+
+	/**
+	 * Convert TM EPO options attached directly to products into product-specific prad_option forms.
+	 *
+	 * @param bool     $dry_run Whether this is dry run.
+	 * @param callable $log     Logger callable.
+	 *
+	 * @return array{migrated: int, skipped: int, assignments: int, warnings: array}
+	 */
+	private function migrate_direct_product_forms( bool $dry_run, callable $log ): array {
+		global $wpdb;
+
+		$product_ids = $wpdb->get_col(
+			"SELECT DISTINCT p.ID
+			 FROM {$wpdb->posts} p
+			 INNER JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID AND pm.meta_key = 'tm_meta'
+			 WHERE p.post_type = 'product'"
+		);
+
+		$log( 'Found ' . count( $product_ids ) . ' products with TM EPO tm_meta to inspect for direct options.', 'log' );
+
+		$migrated   = 0;
+		$skipped    = 0;
+		$assigned   = 0;
+		$warnings   = array();
+
+		foreach ( $product_ids as $product_id ) {
+			$product_id = (int) $product_id;
+			$product    = get_post( $product_id );
+
+			if ( ! $product || 'product' !== $product->post_type ) {
+				continue;
+			}
+
+			$tm_meta = maybe_unserialize( get_post_meta( $product_id, 'tm_meta', true ) );
+			if ( ! is_array( $tm_meta ) || empty( $tm_meta['tmfbuilder'] ) || ! is_array( $tm_meta['tmfbuilder'] ) ) {
+				continue;
+			}
+
+			$element_types = $tm_meta['tmfbuilder']['element_type'] ?? array();
+			if ( empty( $element_types ) || ! is_array( $element_types ) ) {
+				continue;
+			}
+
+			try {
+				$product_warnings = array();
+				$options_list     = $this->convert_epo_post_to_prad( $product, $product_warnings );
+
+				if ( empty( $options_list['blocks'] ) ) {
+					continue;
+				}
+
+				if ( ! empty( $product_warnings ) ) {
+					$warnings[ 'Product ' . $product_id ] = $product_warnings;
+				}
+
+				$log(
+					"  [PRODUCT {$product_id}] \"{$product->post_title}\" -> " . count( $options_list['blocks'] ) . ' block(s)' . ( ! empty( $product_warnings ) ? ' (' . count( $product_warnings ) . ' warning(s))' : '' ),
+					'log'
+				);
+
+				if ( $dry_run ) {
+					$log( "  [DRY-RUN] Would create product-specific prad_option for product {$product_id} and assign it after global forms.", 'log' );
+					++$migrated;
+					++$assigned;
+					continue;
+				}
+
+				$prad_option_id = $this->create_prad_option_post( $options_list );
+				$this->assign_prad_option_to_product( $product_id, $prad_option_id );
+
+				$log( "  Assigned product {$product_id} to new prad_option {$prad_option_id} after migrated global assignments.", 'log' );
+
+				++$migrated;
+				++$assigned;
+			} catch ( Exception $e ) {
+				$log( "  [ERROR] Product {$product_id}: " . $e->getMessage(), 'error' );
+				++$skipped;
+			}
+		}
+
+		return array(
+			'migrated'    => $migrated,
+			'skipped'     => $skipped,
+			'assignments' => $assigned,
+			'warnings'    => $warnings,
+		);
+	}
+
+	/**
+	 * Assign a prad_option post to a product.
+	 *
+	 * This appends the option to the product include list so call order controls render order.
+	 */
+	private function assign_prad_option_to_product( int $product_id, int $prad_option_id ): void {
+		$assigned_raw = get_post_meta( $prad_option_id, 'prad_base_assigned_data', true );
+		if ( function_exists( 'product_addons' ) ) {
+			$assigned = json_decode( product_addons()->safe_stripslashes( $assigned_raw ), true );
+		} else {
+			$assigned = json_decode( wp_unslash( $assigned_raw ), true );
+		}
+
+		if ( ! is_array( $assigned ) ) {
+			$assigned = array(
+				'aType'    => 'specific_product',
+				'includes' => array(),
+				'excludes' => array(),
+			);
+		}
+
+		if ( ! in_array( $product_id, $assigned['includes'], true ) ) {
+			$assigned['includes'][] = $product_id;
+		}
+		update_post_meta( $prad_option_id, 'prad_base_assigned_data', wp_json_encode( $assigned ) );
+
+		$meta_inc_raw = get_post_meta( $product_id, 'prad_product_assigned_meta_inc', true );
+		if ( function_exists( 'product_addons' ) ) {
+			$meta_inc = json_decode( product_addons()->safe_stripslashes( $meta_inc_raw ), true );
+		} else {
+			$meta_inc = json_decode( wp_unslash( $meta_inc_raw ), true );
+		}
+
+		$meta_inc = is_array( $meta_inc ) ? $meta_inc : array();
+
+		if ( ! in_array( $prad_option_id, $meta_inc, false ) ) {
+			$meta_inc[] = $prad_option_id;
+		}
+		update_post_meta( $product_id, 'prad_product_assigned_meta_inc', wp_json_encode( $meta_inc ) );
 	}
 
 	/**
