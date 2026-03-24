@@ -46,7 +46,6 @@ class Initialization {
 	 */
 	public function requires() {
 
-		new Deactive();
 		new PostType();
 		new Analytics();
 		new Xpo();
