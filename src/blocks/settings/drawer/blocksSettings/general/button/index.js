@@ -11,17 +11,20 @@ import {
 const ButtonSettings = ( props ) => {
 	const { type, settings, toolbarSetData, _singleSwitch } = props;
 
-	const setNew = () => {
-		const options = [
-			...( settings._options ?? [] ),
-			{
-				value: type + ' ' + ( settings._options.length + 1 ),
-				type: 'fixed',
-				regular: '12',
-				sale: '',
-				uid: generateUID(),
-			},
-		];
+	const setNew = ( insertAfterIndex = null ) => {
+		const newOption = {
+			value: '',
+			type: 'fixed',
+			regular: '',
+			sale: '',
+			uid: generateUID(),
+		};
+		const options = [ ...( settings._options ?? [] ) ];
+		if ( insertAfterIndex !== null ) {
+			options.splice( insertAfterIndex + 1, 0, newOption );
+		} else {
+			options.push( newOption );
+		}
 		toolbarSetData( '_options', options );
 	};
 

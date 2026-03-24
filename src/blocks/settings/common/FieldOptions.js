@@ -1,5 +1,5 @@
 const { __ } = wp.i18n;
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import Button from '../../../components/Button';
 import ColorPicker from '../../../components/ColorPicker';
 import Select from '../../../components/Select';
@@ -218,277 +218,291 @@ const FieldOptions = ( props ) => {
 
 				{ options.map( ( val, i ) => {
 					return (
-						<div
-							className={ `prad-field-row prad-drag-wrapper-toolbar prad-gap-12 prad-plr-20 prad-d-grid prad-item-center prad-column-${ columnNumber(
-								type
-							) }` }
-							key={ i }
-							id={ i }
-							onDragOver={ ( e ) => handleDragOver( e ) } // Handle drag over
-							onDragLeave={ ( e ) => handleDragLeave( e ) } // Handle drag leave
-							onDrop={ ( e ) => handleDrop( e, i ) }
-							onDragEnd={ handleDragEnd }
-							onDragEnter={ ( e ) => handleDragEnter( e ) }
-						>
-							{ hasMultiple && (
-								<div>
-									<div
-										className="prad-lh-0 prad-cursor-pointer prad-option-drag-toolbar"
-										draggable={ true }
-										onDragStart={ ( e ) =>
-											handleDragStart( e, i )
-										}
-									>
-										{ Icons.drag }
-									</div>
-								</div>
-							) }
-							{ hasLabel && (
-								<div>
-									<input
-										className="prad-input prad-bc-border-primary prad-w-full"
-										type="text"
-										onChange={ ( v ) =>
-											setOption(
-												i,
-												'value',
-												v.target.value
-											)
-										}
-										value={ val.value }
-									/>
-								</div>
-							) }
-							{ ( hasImg || isSwatches ) && (
-								<div>
-									{ type === 'color_switch' ? (
-										<div>
-											<ColorPicker
-												initialColor={ val.color }
-												isSwatches={ true }
-												onChange={ ( newColor ) => {
-													setOption(
-														i,
-														'color',
-														newColor
-													);
-												} }
-												style={ {
-													width: '54px',
-													height: '34px',
-												} }
-												triggerClass="prad-p-2 prad-br-smd"
-												selectedColorClass="prad-br-sm"
-											/>
-										</div>
-									) : (
+						<Fragment key={ i }>
+							<div
+								className={ `prad-field-row prad-drag-wrapper-toolbar prad-gap-12 prad-plr-20 prad-d-grid prad-item-center prad-column-${ columnNumber(
+									type
+								) }` }
+								id={ i }
+								onDragOver={ ( e ) => handleDragOver( e ) } // Handle drag over
+								onDragLeave={ ( e ) => handleDragLeave( e ) } // Handle drag leave
+								onDrop={ ( e ) => handleDrop( e, i ) }
+								onDragEnd={ handleDragEnd }
+								onDragEnter={ ( e ) => handleDragEnter( e ) }
+							>
+								{ hasMultiple && (
+									<div>
 										<div
-											className="prad-lh-0 prad-p-2 prad-br-smd prad-border-default prad-cursor-pointer prad-relative"
-											onClick={ () => handleImage( i ) }
-											role="button"
-											tabIndex="-1"
-											onKeyDown={ ( e ) => {
-												if ( e.key === 'Enter' ) {
-													handleImage( i );
-												}
-											} }
+											className="prad-lh-0 prad-cursor-pointer prad-option-drag-toolbar"
+											draggable={ true }
+											onDragStart={ ( e ) =>
+												handleDragStart( e, i )
+											}
 										>
-											{ val.img && hasImg && (
-												<div
-													className="prad-absolute"
-													style={ {
-														backgroundColor:
-															'#ff0000',
-														top: '-8px',
-														right: '-8px',
-														borderRadius: '16px',
-														color: '#fff',
-													} }
-													onClick={ ( e ) => {
-														e.stopPropagation();
-														handleImage(
+											{ Icons.drag }
+										</div>
+									</div>
+								) }
+								{ hasLabel && (
+									<div>
+										<input
+											className="prad-input prad-bc-border-primary prad-w-full"
+											type="text"
+											onChange={ ( v ) =>
+												setOption(
+													i,
+													'value',
+													v.target.value
+												)
+											}
+											value={ val.value }
+										/>
+									</div>
+								) }
+								{ ( hasImg || isSwatches ) && (
+									<div>
+										{ type === 'color_switch' ? (
+											<div>
+												<ColorPicker
+													initialColor={ val.color }
+													isSwatches={ true }
+													onChange={ ( newColor ) => {
+														setOption(
 															i,
-															'remove'
+															'color',
+															newColor
 														);
 													} }
-													role="button"
-													tabIndex="-1"
-													onKeyDown={ ( e ) => {
-														if (
-															e.key === 'Enter'
-														) {
+													style={ {
+														width: '54px',
+														height: '34px',
+													} }
+													triggerClass="prad-p-2 prad-br-smd"
+													selectedColorClass="prad-br-sm"
+												/>
+											</div>
+										) : (
+											<div
+												className="prad-lh-0 prad-p-2 prad-br-smd prad-border-default prad-cursor-pointer prad-relative"
+												onClick={ () => handleImage( i ) }
+												role="button"
+												tabIndex="-1"
+												onKeyDown={ ( e ) => {
+													if ( e.key === 'Enter' ) {
+														handleImage( i );
+													}
+												} }
+											>
+												{ val.img && hasImg && (
+													<div
+														className="prad-absolute"
+														style={ {
+															backgroundColor:
+																'#ff0000',
+															top: '-8px',
+															right: '-8px',
+															borderRadius: '16px',
+															color: '#fff',
+														} }
+														onClick={ ( e ) => {
 															e.stopPropagation();
 															handleImage(
 																i,
 																'remove'
 															);
-														}
+														} }
+														role="button"
+														tabIndex="-1"
+														onKeyDown={ ( e ) => {
+															if (
+																e.key === 'Enter'
+															) {
+																e.stopPropagation();
+																handleImage(
+																	i,
+																	'remove'
+																);
+															}
+														} }
+													>
+														{ Icons.cross }
+													</div>
+												) }
+												<img
+													style={ {
+														width: '54px',
+														height: '34px',
+														objectFit: 'cover',
 													} }
-												>
-													{ Icons.cross }
-												</div>
-											) }
-											<img
-												style={ {
-													width: '54px',
-													height: '34px',
-													objectFit: 'cover',
-												} }
-												src={
-													val.img ||
-													pradBackendData.url +
-														'assets/img/default-product.svg'
+													src={
+														val.img ||
+														pradBackendData.url +
+															'assets/img/default-product.svg'
+													}
+													alt="WowAddons"
+													className="prad-br-sm"
+												/>
+											</div>
+										) }
+									</div>
+								) }
+								<div className="prad-relative prad-d-flex prad-item-center ">
+									<Select
+										options={ priceTypes?.map( ( item ) => ( {
+											value: item.val,
+											label: item.label,
+											isPro: item.isPro,
+										} ) ) }
+										onChange={ ( v ) => {
+											setOption( i, 'type', v.value );
+										} }
+										minWidth="100%"
+										selectedOption={ val.type }
+										valueClass="prad-ellipsis"
+									/>
+								</div>
+								<div>
+									<input
+										className={ `prad-input prad-bc-border-primary prad-w-full prad-${
+											val.type === 'no_cost'
+												? 'disable'
+												: 'enable'
+										}` }
+										type={
+											val.type === 'no_cost'
+												? 'text'
+												: 'number'
+										}
+										onChange={ ( v ) => {
+											const _val = v.target.value;
+											setOption(
+												i,
+												'regular',
+												_val < 0
+													? Math.abs( Number( _val ) )
+													: _val
+											);
+										} }
+										value={
+											val.type === 'no_cost'
+												? 'Free'
+												: val.regular
+										}
+									/>
+								</div>
+								<div>
+									<input
+										className={ `prad-input prad-bc-border-primary prad-w-full prad-${
+											val.type === 'no_cost'
+												? 'disable'
+												: 'enable'
+										} prad-opacity-${
+											val.type === 'no_cost' ? 'half' : 'full'
+										}` }
+										type="number"
+										onChange={ ( v ) => {
+											const _val = v.target.value;
+											setOption(
+												i,
+												'sale',
+												_val < 0
+													? Math.abs( Number( _val ) )
+													: _val
+											);
+										} }
+										value={ val.sale }
+									/>
+								</div>
+								{ hasMultiple &&
+									( isMultiChoice ? (
+										<div
+											className={ `prad-checkbox-custom prad-${
+												defVal?.indexOf( i ) > -1
+													? 'active'
+													: 'inactive'
+											}` }
+											ref={ ( el ) =>
+												( elementRefs.current[ i ] = el )
+											}
+											onClick={ () =>
+												handleActiveStatus( i )
+											}
+											role="button"
+											tabIndex="-1"
+											onKeyDown={ ( e ) => {
+												if ( e.key === 'Enter' ) {
+													handleActiveStatus( i );
 												}
-												alt="WowAddons"
-												className="prad-br-sm"
+											} }
+										/>
+									) : (
+										<div
+											className={ `prad-radio-custom prad-${
+												defVal?.indexOf( i ) > -1
+													? 'active'
+													: 'inactive'
+											}` }
+											ref={ ( el ) =>
+												( elementRefs.current[ i ] = el )
+											}
+											onClick={ () =>
+												handleActiveStatus( i )
+											}
+											role="button"
+											tabIndex="-1"
+											onKeyDown={ ( e ) => {
+												if ( e.key === 'Enter' ) {
+													handleActiveStatus( i );
+												}
+											} }
+										/>
+									) ) }
+								{ hasMultiple && (
+									<Button
+										onlyIcon={ true }
+										iconName="delete"
+										background="base2"
+										fontHeight="0"
+										borderRadius="100"
+										className="prad-btn-close"
+										borderColor="transparent"
+										onClick={ () => setDelete( i ) }
+									/>
+								) }
+								{ hasDescription && (
+									<>
+										{ hasMultiple && <div></div> }
+										<div style={ { gridColumn: 'span 7' } }>
+											<input
+												className="prad-input prad prad-bc-border-primary prad-w-full"
+												type="text"
+												onChange={ ( v ) =>
+													setOption(
+														i,
+														'description',
+														v.target.value
+													)
+												}
+												value={ val.description }
 											/>
 										</div>
-									) }
-								</div>
-							) }
-							<div className="prad-relative prad-d-flex prad-item-center ">
-								<Select
-									options={ priceTypes?.map( ( item ) => ( {
-										value: item.val,
-										label: item.label,
-										isPro: item.isPro,
-									} ) ) }
-									onChange={ ( v ) => {
-										setOption( i, 'type', v.value );
-									} }
-									minWidth="100%"
-									selectedOption={ val.type }
-									valueClass="prad-ellipsis"
-								/>
+									</>
+								) }
 							</div>
-							<div>
-								<input
-									className={ `prad-input prad-bc-border-primary prad-w-full prad-${
-										val.type === 'no_cost'
-											? 'disable'
-											: 'enable'
-									}` }
-									type={
-										val.type === 'no_cost'
-											? 'text'
-											: 'number'
-									}
-									onChange={ ( v ) => {
-										const _val = v.target.value;
-										setOption(
-											i,
-											'regular',
-											_val < 0
-												? Math.abs( Number( _val ) )
-												: _val
-										);
-									} }
-									value={
-										val.type === 'no_cost'
-											? 'Free'
-											: val.regular
-									}
-								/>
+							{ hasMultiple && i < options.length - 1 && (
+								<div className="plus-line-container">
+								<div className="line"></div>
+								<button
+									type="button"
+									className="plus-button"
+									onClick={ () => setNew( i ) }
+								>
+									{ Icons.add }
+								</button>
+								<div className="line"></div>
 							</div>
-							<div>
-								<input
-									className={ `prad-input prad-bc-border-primary prad-w-full prad-${
-										val.type === 'no_cost'
-											? 'disable'
-											: 'enable'
-									} prad-opacity-${
-										val.type === 'no_cost' ? 'half' : 'full'
-									}` }
-									type="number"
-									onChange={ ( v ) => {
-										const _val = v.target.value;
-										setOption(
-											i,
-											'sale',
-											_val < 0
-												? Math.abs( Number( _val ) )
-												: _val
-										);
-									} }
-									value={ val.sale }
-								/>
-							</div>
-							{ hasMultiple &&
-								( isMultiChoice ? (
-									<div
-										className={ `prad-checkbox-custom prad-${
-											defVal?.indexOf( i ) > -1
-												? 'active'
-												: 'inactive'
-										}` }
-										ref={ ( el ) =>
-											( elementRefs.current[ i ] = el )
-										}
-										onClick={ () =>
-											handleActiveStatus( i )
-										}
-										role="button"
-										tabIndex="-1"
-										onKeyDown={ ( e ) => {
-											if ( e.key === 'Enter' ) {
-												handleActiveStatus( i );
-											}
-										} }
-									/>
-								) : (
-									<div
-										className={ `prad-radio-custom prad-${
-											defVal?.indexOf( i ) > -1
-												? 'active'
-												: 'inactive'
-										}` }
-										ref={ ( el ) =>
-											( elementRefs.current[ i ] = el )
-										}
-										onClick={ () =>
-											handleActiveStatus( i )
-										}
-										role="button"
-										tabIndex="-1"
-										onKeyDown={ ( e ) => {
-											if ( e.key === 'Enter' ) {
-												handleActiveStatus( i );
-											}
-										} }
-									/>
-								) ) }
-							{ hasMultiple && (
-								<Button
-									onlyIcon={ true }
-									iconName="delete"
-									background="base2"
-									fontHeight="0"
-									borderRadius="100"
-									className="prad-btn-close"
-									borderColor="transparent"
-									onClick={ () => setDelete( i ) }
-								/>
 							) }
-							{ hasDescription && (
-								<>
-									{ hasMultiple && <div></div> }
-									<div style={ { gridColumn: 'span 7' } }>
-										<input
-											className="prad-input prad prad-bc-border-primary prad-w-full"
-											type="text"
-											onChange={ ( v ) =>
-												setOption(
-													i,
-													'description',
-													v.target.value
-												)
-											}
-											value={ val.description }
-										/>
-									</div>
-								</>
-							) }
-						</div>
+						</Fragment>
 					);
 				} ) }
 			</div>

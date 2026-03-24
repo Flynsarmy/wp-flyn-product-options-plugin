@@ -22,16 +22,19 @@ const FontPickerSettings = ( props ) => {
 	const defVal = settings?.defval || [];
 	const elementRefs = useRef( [] );
 
-	const setNew = () => {
-		const newOptions = [
-			...( settings._options ?? [] ),
-			{
-				fontFamily: '',
-				type: 'fixed',
-				regular: '12',
-				sale: '',
-			},
-		];
+	const setNew = ( insertAfterIndex = null ) => {
+		const newOption = {
+			fontFamily: '',
+			type: 'fixed',
+			regular: '',
+			sale: '',
+		};
+		const newOptions = [ ...( settings._options ?? [] ) ];
+		if ( insertAfterIndex !== null ) {
+			newOptions.splice( insertAfterIndex + 1, 0, newOption );
+		} else {
+			newOptions.push( newOption );
+		}
 		toolbarSetData( '_options', newOptions );
 	};
 

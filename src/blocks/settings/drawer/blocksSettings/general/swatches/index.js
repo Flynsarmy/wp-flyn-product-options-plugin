@@ -12,18 +12,21 @@ import {
 const MultiSwitcher = ( props ) => {
 	const { type, settings, toolbarSetData } = props;
 
-	const setNew = () => {
-		const _options = [
-			...( settings._options ?? [] ),
-			{
-				value: 'New Option',
-				type: 'fixed',
-				regular: '12',
-				sale: '',
-				...( type === 'color_switch' && { color: '#fff000' } ),
-				uid: generateUID(),
-			},
-		];
+	const setNew = ( insertAfterIndex = null ) => {
+		const newOption = {
+			value: '',
+			type: 'fixed',
+			regular: '',
+			sale: '',
+			...( type === 'color_switch' && { color: '#fff000' } ),
+			uid: generateUID(),
+		};
+		const _options = [ ...( settings._options ?? [] ) ];
+		if ( insertAfterIndex !== null ) {
+			_options.splice( insertAfterIndex + 1, 0, newOption );
+		} else {
+			_options.push( newOption );
+		}
 		toolbarSetData( '_options', _options );
 	};
 

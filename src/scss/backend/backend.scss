@@ -2716,6 +2716,56 @@ input:is(
 	.prad-field-header {
 		padding: 10px 20px 10px 20px !important;
 	}
+
+	.plus-line-container {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 6px 20px;
+		opacity: 0.35;
+		transition: opacity 0.15s ease;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		.line {
+			flex: 1;
+			height: 1px;
+			background: var(--prad-color-border-primary);
+		}
+	}
+
+	.plus-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		border: 1px solid var(--prad-color-border-primary);
+		border-radius: 999px;
+		background: #fff;
+		color: var(--prad-color-primary);
+		cursor: pointer;
+		transition:
+			background-color 0.15s ease,
+			border-color 0.15s ease,
+			transform 0.15s ease;
+
+		&:hover,
+		&:focus-visible {
+			background: var(--prad-color-base-two);
+			border-color: var(--prad-color-primary);
+			outline: none;
+			transform: scale( 1.05 );
+		}
+
+		svg {
+			width: 14px;
+			height: 14px;
+		}
+	}
 }
 
 .prad-top-menu {

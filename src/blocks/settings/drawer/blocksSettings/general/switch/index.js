@@ -37,16 +37,19 @@ const SwitchSettings = ( props ) => {
 		pradImage.open();
 	};
 
-	const setNew = () => {
-		const options = [
-			...( settings._options ?? [] ),
-			{
-				value: type + ' ' + ( settings._options.length + 1 ),
-				type: 'fixed',
-				regular: '12',
-				sale: '',
-			},
-		];
+	const setNew = ( insertAfterIndex = null ) => {
+		const newOption = {
+			value: '',
+			type: 'fixed',
+			regular: '',
+			sale: '',
+		};
+		const options = [ ...( settings._options ?? [] ) ];
+		if ( insertAfterIndex !== null ) {
+			options.splice( insertAfterIndex + 1, 0, newOption );
+		} else {
+			options.push( newOption );
+		}
 		toolbarSetData( '_options', options );
 	};
 
