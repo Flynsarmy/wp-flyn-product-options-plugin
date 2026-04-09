@@ -72,7 +72,7 @@ class CheckboxBlock extends AbstractBlock {
 		$enableMinMaxRes     = $this->get_property( 'enableMinMaxRes', true );
 
 		if ( $enableMinMaxRes ) {
-			$attributes['data-minselect'] = $this->get_property( 'minSelect', 1 );
+			$attributes['data-minselect'] = $this->get_property( 'minSelect', '' );
 			$attributes['data-maxselect'] = $this->get_property( 'maxSelect', 100 );
 		}
 
