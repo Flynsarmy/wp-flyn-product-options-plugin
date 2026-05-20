@@ -54,7 +54,7 @@ const mainExport = Object.assign( {}, config, {
 	entry: {
 		'./assets/js/wowaddons': './src/index.js',
 		'./assets/js/frontend-script': './src/frontend_script/index.js',
-		'./assets/js/wowcart': './src/frontend_script/cart/cartMeta.js',
+		// './assets/js/wowcart': './src/frontend_script/cart/cartMeta.js',
 		'./assets/js/wowdate-min': './src/frontend_script/datetime/index.js',
 	},
 	output: {

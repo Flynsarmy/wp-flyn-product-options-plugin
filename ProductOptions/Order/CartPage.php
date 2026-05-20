@@ -179,7 +179,7 @@ class CartPage {
 			$data = $this->calculate_option_price( $cart_item['prad_selection_raw'], $cart_item['product_id'], $cart_item['prad_option_published_ids'], $cart_item['variation_id'] );
 			if ( isset( $data['extra_data'] ) ) {
 				wp_enqueue_style( 'prad-cart-style', FLYNPO_URL . 'assets/css/wowcart.css', array(), FLYNPO_VER );
-				wp_enqueue_script( 'prad-cart-script', FLYNPO_URL . 'assets/js/wowcart.js', array( 'jquery' ), FLYNPO_VER, true );
+				// wp_enqueue_script( 'prad-cart-script', FLYNPO_URL . 'assets/js/wowcart.js', array( 'jquery' ), FLYNPO_VER, true );
 				wp_set_script_translations( 'prad-cart-script', 'flyn-product-options', FLYNPO_PATH . 'languages/' );
 
 				$addon_data = $data['extra_data'] ?? array();
