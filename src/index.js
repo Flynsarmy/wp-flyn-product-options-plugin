@@ -127,12 +127,26 @@ const App = () => {
 
 	const handleClickOutside = ( e ) => {
 		if (
-			e.target &&
-			! e.target.classList?.contains( 'ultp-reserve-button' )
+			e.button !== 0 ||
+			e.metaKey ||
+			e.ctrlKey ||
+			e.shiftKey ||
+			e.altKey
 		) {
-			if ( e.target.href ) {
-				if ( e.target.href.indexOf( 'page=flynpo-dashboard#' ) > 0 ) {
-					const slug = e.target.href.split( '#' );
+			return;
+		}
+
+		const linkTarget = e.target?.closest?.( 'a[href]' );
+		if ( ! linkTarget ) {
+			return;
+		}
+
+		if (
+			! linkTarget.classList?.contains( 'ultp-reserve-button' )
+		) {
+			if ( linkTarget.href ) {
+				if ( linkTarget.href.indexOf( 'page=flynpo-dashboard#' ) > 0 ) {
+					const slug = linkTarget.href.split( '#' );
 					if ( slug[ 1 ] ) {
 						setCurrentNav( slug[ 1 ] );
 						window.scrollTo( { top: 0, behavior: 'smooth' } );
@@ -145,7 +159,7 @@ const App = () => {
 	useEffect( () => {
 		const abortControl = new AbortController();
 		_fetchQuery();
-		document.addEventListener( 'mousedown', handleClickOutside, {
+		document.addEventListener( 'click', handleClickOutside, {
 			signal: abortControl.signal,
 		} );
 		return () => abortControl.abort();

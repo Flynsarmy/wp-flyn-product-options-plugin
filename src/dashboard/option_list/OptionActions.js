@@ -3,40 +3,20 @@ import icons from '../../utils/Icons';
 const OptionActions = ( props ) => {
 	const {
 		option,
-		setOptionId,
-		setIsListing,
 		exportAddon,
 		duplicateOption,
 		handleDeleteClick,
 	} = props;
+	const editLink = `${ pradBackendData.db_url }lists/${ option.id }`;
 
 	return (
 		<div className="prad-d-flex prad-item-center prad-gap-8">
-			<span
+			<a
+				href={ editLink }
 				className="prad-btn-action prad-lh-0"
-				onClick={ () => {
-					const url = new URL( window.location.href );
-					const newHash = `#lists/${ option.id }`;
-					const newUrl = `${ url.pathname }${ url.search }${ newHash }`;
-					window.history.pushState( {}, '', newUrl );
-					setOptionId( option.id );
-					setIsListing( false );
-				} }
-				role="button"
-				tabIndex="-1"
-				onKeyDown={ ( e ) => {
-					if ( e.key === 'Enter' ) {
-						const url = new URL( window.location.href );
-						const newHash = `#lists/${ option.id }`;
-						const newUrl = `${ url.pathname }${ url.search }${ newHash }`;
-						window.history.pushState( {}, '', newUrl );
-						setOptionId( option.id );
-						setIsListing( false );
-					}
-				} }
 			>
 				{ icons.edit }
-			</span>
+			</a>
 			<span
 				className="prad-btn-action prad-lh-0"
 				onClick={ () => exportAddon( [ option.id ] ) }

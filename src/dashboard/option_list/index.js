@@ -579,6 +579,7 @@ const OptionList = ( { setOptionId, setIsListing } ) => {
 							{ optionList.length > 0 ? (
 								<div className="prad-list-body">
 									{ optionList.map( ( option, k ) => {
+											const optionEditLink = `${ pradBackendData.db_url }lists/${ option.id }`;
 										return (
 											<div
 												key={ k }
@@ -607,97 +608,19 @@ const OptionList = ( { setOptionId, setIsListing } ) => {
 													/>
 													<div className="prad-checkbox-custom prad-checkbox-md prad-bg-transparent"></div>
 												</label>
-												<div
+												<a
+													href={ optionEditLink }
 													className="prad-color-primary prad-cursor-pointer"
-													onClick={ () => {
-														const url = new URL(
-															window.location.href
-														);
-														const newHash = `#lists/${ option.id }`;
-														const newUrl = `${ url.pathname }${ url.search }${ newHash }`;
-														window.history.pushState(
-															{},
-															'',
-															newUrl
-														);
-														setOptionId(
-															option.id
-														);
-														setIsListing( false );
-													} }
-													role="button"
-													tabIndex="-1"
-													onKeyDown={ ( e ) => {
-														if (
-															e.key === 'Enter'
-														) {
-															const url = new URL(
-																window.location.href
-															);
-															const newHash = `#lists/${ option.id }`;
-															const newUrl = `${ url.pathname }${ url.search }${ newHash }`;
-															window.history.pushState(
-																{},
-																'',
-																newUrl
-															);
-															setOptionId(
-																option.id
-															);
-															setIsListing(
-																false
-															);
-														}
-													} }
 												>
 													#{ option.id }
-												</div>
-												<div
+												</a>
+												<a
+													href={ optionEditLink }
 													className="prad-ellipsis prad-list-title prad-cursor-pointer"
-													onClick={ () => {
-														const url = new URL(
-															window.location.href
-														);
-														const newHash = `#lists/${ option.id }`;
-														const newUrl = `${ url.pathname }${ url.search }${ newHash }`;
-														window.history.pushState(
-															{},
-															'',
-															newUrl
-														);
-														setOptionId(
-															option.id
-														);
-														setIsListing( false );
-													} }
-													role="button"
-													tabIndex="-1"
 													title={ option.title }
-													onKeyDown={ ( e ) => {
-														if (
-															e.key === 'Enter'
-														) {
-															const url = new URL(
-																window.location.href
-															);
-															const newHash = `#lists/${ option.id }`;
-															const newUrl = `${ url.pathname }${ url.search }${ newHash }`;
-															window.history.pushState(
-																{},
-																'',
-																newUrl
-															);
-															setOptionId(
-																option.id
-															);
-															setIsListing(
-																false
-															);
-														}
-													} }
 												>
 													{ option.title }
-												</div>
+												</a>
 												<div className="prad-relative">
 													<input
 														type="checkbox"
@@ -729,10 +652,6 @@ const OptionList = ( { setOptionId, setIsListing } ) => {
 												</div>
 												<OptionActions
 													option={ option }
-													setOptionId={ setOptionId }
-													setIsListing={
-														setIsListing
-													}
 													exportAddon={ exportAddon }
 													duplicateOption={
 														duplicateOption
