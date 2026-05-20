@@ -55,22 +55,15 @@ class ProductBlocks {
 		}
 
 		foreach ( $option_ids as $option_id ) {
-			$status = get_post_status( $option_id );
+			$blocks_content = $this->get_addon_blocks_content( $option_id );
 
-			if ( $status === 'publish' ) {
-				$blocks_content = $this->get_addon_blocks_content( $option_id );
+			if ( ! empty( $blocks_content ) ) {
+				// Render addon CSS if needed
+				$this->maybe_render_addon_css( $option_id );
 
-				if ( ! empty( $blocks_content ) ) {
-					// Render addon CSS if needed
-					$this->maybe_render_addon_css( $option_id );
-
-					$result['blocks'][ $option_id ] = $blocks_content;
-					$result['published_ids'][]      = $option_id;
-					++$result['total_addons'];
-				}
-			} elseif ( ! $status ) {
-				// Clean up deleted options
-				do_action( 'prad_delete_option_product_meta', $option_id );
+				$result['blocks'][ $option_id ] = $blocks_content;
+				$result['published_ids'][]      = $option_id;
+				++$result['total_addons'];
 			}
 		}
 
@@ -443,7 +436,7 @@ class ProductBlocks {
 			// Get all products (this might be expensive for large stores)
 			$all_products = $wpdb->get_col(
 				"SELECT ID FROM {$wpdb->posts}
-                 WHERE post_type = 'product' AND post_status = 'publish'"
+                 WHERE post_type = 'product'"
 			);
 			$products     = array_merge( $products, $all_products );
 		}

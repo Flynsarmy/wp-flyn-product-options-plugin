@@ -265,7 +265,7 @@ class CartPage {
 			$merged_content = array();
 			if ( is_array( $option_ids ) && ! empty( $option_ids ) ) {
 				foreach ( $option_ids as $k => $opt_id ) {
-					if ( 'publish' === get_post_status( $opt_id ) ) {
+					if ( in_array( get_post_status( $opt_id ), array( 'publish', 'draft' ), true ) ) {
 						$content = get_post_meta( $opt_id, 'prad_addons_blocks', true );
 						$content = wp_json_encode( $content );
 						$content = json_decode( $content );

@@ -158,7 +158,7 @@ class ShopCompatibility {
 		if ( is_array( $option_ids ) && ! empty( $option_ids ) ) {
 			foreach ( $option_ids as $k => $opt_id ) {
 				$status = get_post_status( $opt_id );
-				if ( 'publish' === $status ) {
+				if ( in_array( $status, array( 'publish', 'draft' ), true ) ) {
 					$content = get_post_meta( $opt_id, 'prad_addons_blocks', true );
 					$content = wp_json_encode( $content );
 					$content = json_decode( $content );
