@@ -1158,6 +1158,7 @@ class RequestApi {
 		update_option( 'prad_product_image_update_data', $new_image_data );
 
 		$raw_data = isset( $params['raw_data'] ) ? flynpo_product_options()->sanitize_rest_params( $params['raw_data'] ) : array();
+		$previous_positions = $this->get_assignment_positions( $option_id );
 
 		/* First Remove existing assign include / excludes meta */
 		$this->handle_existing_assign_meta( $option_id );
@@ -1168,10 +1169,7 @@ class RequestApi {
 				foreach ( $raw_data['includes'] as $include ) {
 					$meta_inc = json_decode( flynpo_product_options()->safe_stripslashes( get_post_meta( $include, 'prad_product_assigned_meta_inc', true ) ), true );
 					$meta_inc = is_array( $meta_inc ) ? $meta_inc : array();
-
-					if ( ! in_array( $option_id, $meta_inc, false ) ) {
-						$meta_inc[] = $option_id;
-					}
+					$meta_inc = $this->insert_option_id_at_position( $meta_inc, $option_id, $previous_positions[ 'include_product' ][ $include ] ?? null );
 					update_post_meta( $include, 'prad_product_assigned_meta_inc', wp_json_encode( $meta_inc ) );
 				}
 			}
@@ -1180,20 +1178,14 @@ class RequestApi {
 				foreach ( $raw_data['includes'] as $include ) {
 					$meta_inc = json_decode( flynpo_product_options()->safe_stripslashes( get_term_meta( $include, 'prad_term_assigned_meta_inc', true ) ), true );
 					$meta_inc = is_array( $meta_inc ) ? $meta_inc : array();
-
-					if ( ! in_array( $option_id, $meta_inc, false ) ) {
-						$meta_inc[] = $option_id;
-					}
+					$meta_inc = $this->insert_option_id_at_position( $meta_inc, $option_id, $previous_positions['include_term'][ $include ] ?? null );
 					update_term_meta( $include, 'prad_term_assigned_meta_inc', wp_json_encode( $meta_inc ) );
 				}
 			}
 		} elseif ( 'all_product' === $raw_data['aType'] ) {        // Update meta for All Products.
 			$option_settings = json_decode( flynpo_product_options()->safe_stripslashes( get_option( 'prad_option_assign_all', '[]' ) ), true );
 			$option_settings = is_array( $option_settings ) ? $option_settings : array();
-
-			if ( ! in_array( $option_id, $option_settings, false ) ) {
-				$option_settings[] = $option_id;
-			}
+			$option_settings = $this->insert_option_id_at_position( $option_settings, $option_id, $previous_positions['include_all'] ?? null );
 			update_option( 'prad_option_assign_all', wp_json_encode( $option_settings ) );
 		}
 
@@ -1202,10 +1194,7 @@ class RequestApi {
 			foreach ( $raw_data['excludes'] as $exclude ) {
 				$meta_exc = json_decode( flynpo_product_options()->safe_stripslashes( get_post_meta( $exclude, 'prad_product_assigned_meta_exc', true ) ), true );
 				$meta_exc = is_array( $meta_exc ) ? $meta_exc : array();
-
-				if ( ! in_array( $option_id, $meta_exc, false ) ) {
-					$meta_exc[] = $option_id;
-				}
+				$meta_exc = $this->insert_option_id_at_position( $meta_exc, $option_id, $previous_positions['exclude_product'][ $exclude ] ?? null );
 				update_post_meta( $exclude, 'prad_product_assigned_meta_exc', wp_json_encode( $meta_exc ) );
 			}
 		}
@@ -1225,6 +1214,101 @@ class RequestApi {
 			),
 			200
 		);
+	}
+
+	/**
+	 * Capture previous assignment positions so list order can be restored after updates.
+	 *
+	 * @param int|string $option_id Option ID.
+	 *
+	 * @return array
+	 */
+	private function get_assignment_positions( $option_id ) {
+		$positions = array(
+			'include_all'     => null,
+			'include_product' => array(),
+			'include_term'    => array(),
+			'exclude_product' => array(),
+		);
+
+		$assigned_data = json_decode( flynpo_product_options()->safe_stripslashes( get_post_meta( $option_id, 'prad_base_assigned_data', true ) ), true );
+
+		if ( ! is_array( $assigned_data ) ) {
+			return $positions;
+		}
+
+		if ( isset( $assigned_data['aType'] ) && 'all_product' === $assigned_data['aType'] ) {
+			$option_settings = json_decode( flynpo_product_options()->safe_stripslashes( get_option( 'prad_option_assign_all', '[]' ) ), true );
+			if ( is_array( $option_settings ) ) {
+				$position = array_search( $option_id, $option_settings, false );
+				if ( false !== $position ) {
+					$positions['include_all'] = (int) $position;
+				}
+			}
+		} elseif ( isset( $assigned_data['aType'] ) && 'specific_product' === $assigned_data['aType'] ) {
+			if ( is_array( $assigned_data['includes'] ) ) {
+				foreach ( $assigned_data['includes'] as $include ) {
+					$meta_inc = json_decode( flynpo_product_options()->safe_stripslashes( get_post_meta( $include, 'prad_product_assigned_meta_inc', true ) ), true );
+					if ( is_array( $meta_inc ) ) {
+						$position = array_search( $option_id, $meta_inc, false );
+						if ( false !== $position ) {
+							$positions['include_product'][ $include ] = (int) $position;
+						}
+					}
+				}
+			}
+		} elseif ( isset( $assigned_data['aType'] ) && ( 'specific_category' === $assigned_data['aType'] || 'specific_tag' === $assigned_data['aType'] || 'specific_brand' === $assigned_data['aType'] ) ) {
+			if ( is_array( $assigned_data['includes'] ) ) {
+				foreach ( $assigned_data['includes'] as $include ) {
+					$meta_inc = json_decode( flynpo_product_options()->safe_stripslashes( get_term_meta( $include, 'prad_term_assigned_meta_inc', true ) ), true );
+					if ( is_array( $meta_inc ) ) {
+						$position = array_search( $option_id, $meta_inc, false );
+						if ( false !== $position ) {
+							$positions['include_term'][ $include ] = (int) $position;
+						}
+					}
+				}
+			}
+		}
+
+		if ( isset( $assigned_data['excludes'] ) && is_array( $assigned_data['excludes'] ) ) {
+			foreach ( $assigned_data['excludes'] as $exclude ) {
+				$meta_exc = json_decode( flynpo_product_options()->safe_stripslashes( get_post_meta( $exclude, 'prad_product_assigned_meta_exc', true ) ), true );
+				if ( is_array( $meta_exc ) ) {
+					$position = array_search( $option_id, $meta_exc, false );
+					if ( false !== $position ) {
+						$positions['exclude_product'][ $exclude ] = (int) $position;
+					}
+				}
+			}
+		}
+
+		return $positions;
+	}
+
+	/**
+	 * Insert option ID at a preserved index. Falls back to append when no position is known.
+	 *
+	 * @param array       $items Existing assignment IDs.
+	 * @param int|string  $option_id Option ID.
+	 * @param int|null    $position Previous index position.
+	 *
+	 * @return array
+	 */
+	private function insert_option_id_at_position( array $items, $option_id, $position = null ) {
+		if ( in_array( $option_id, $items, false ) ) {
+			$items = array_values( array_diff( $items, array( $option_id ) ) );
+		}
+
+		if ( null === $position || ! is_numeric( $position ) ) {
+			$items[] = $option_id;
+			return $items;
+		}
+
+		$position = max( 0, min( (int) $position, count( $items ) ) );
+		array_splice( $items, $position, 0, array( $option_id ) );
+
+		return $items;
 	}
 
 	/**
