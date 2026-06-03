@@ -76,7 +76,7 @@ gulp.task(
 let folderName = 'product-addons';
 let destName = 'product-addons';
 gulp.task( 'copy_files', function () {
-	const filePath = path.join( __dirname, './product-addons.php' );
+	const filePath = path.join( __dirname, './flyn-product-options.php' );
 	const date = getDateTime();
 	folderName = 'Version-Unknown' + date;
 

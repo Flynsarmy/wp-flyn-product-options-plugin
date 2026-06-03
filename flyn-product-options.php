@@ -21,7 +21,7 @@ use Flyn\ProductOptions\Initialization;
 defined( 'ABSPATH' ) || exit;
 
 // Define Vars.
-define( 'FLYNPO_VER', '1.5.9' );
+define( 'FLYNPO_VER', '1.5.10' );
 define( 'FLYNPO_URL', plugin_dir_url( __FILE__ ) );
 define( 'FLYNPO_BASE', plugin_basename( __FILE__ ) );
 define( 'FLYNPO_PATH', plugin_dir_path( __FILE__ ) );

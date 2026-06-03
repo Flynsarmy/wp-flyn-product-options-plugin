@@ -53,6 +53,17 @@ const SwitchSettings = ( props ) => {
 		toolbarSetData( '_options', options );
 	};
 
+	const setBulkNew = ( values = [] ) => {
+		const options = [ ...( settings._options ?? [] ) ];
+		const newOptions = values.map( ( value ) => ( {
+			value,
+			type: 'fixed',
+			regular: '',
+			sale: '',
+		} ) );
+		toolbarSetData( '_options', [ ...options, ...newOptions ] );
+	};
+
 	const setDelete = ( position ) => {
 		const _options = [ ...( settings._options ?? [] ) ];
 		_options.splice( position, 1 );
@@ -139,6 +150,7 @@ const SwitchSettings = ( props ) => {
 				setOption={ setOption }
 				setDelete={ setDelete }
 				setNew={ setNew }
+				setBulkNew={ setBulkNew }
 				hasLabel={ true }
 				onDrop={ handleDrop }
 				type={ type }

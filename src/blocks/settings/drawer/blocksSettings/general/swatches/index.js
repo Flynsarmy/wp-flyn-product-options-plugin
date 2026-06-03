@@ -30,6 +30,19 @@ const MultiSwitcher = ( props ) => {
 		toolbarSetData( '_options', _options );
 	};
 
+	const setBulkNew = ( values = [] ) => {
+		const options = [ ...( settings._options ?? [] ) ];
+		const newOptions = values.map( ( value ) => ( {
+			value,
+			type: 'fixed',
+			regular: '',
+			sale: '',
+			...( type === 'color_switch' && { color: '#fff000' } ),
+			uid: generateUID(),
+		} ) );
+		toolbarSetData( '_options', [ ...options, ...newOptions ] );
+	};
+
 	const setDelete = ( position ) => {
 		const _options = [ ...( settings._options ?? [] ) ];
 		_options.splice( position, 1 );
@@ -131,6 +144,7 @@ const MultiSwitcher = ( props ) => {
 				setOption={ setOption }
 				setDelete={ setDelete }
 				setNew={ setNew }
+				setBulkNew={ setBulkNew }
 				hasLabel={ true }
 				type={ type }
 				isSwatches={ true }

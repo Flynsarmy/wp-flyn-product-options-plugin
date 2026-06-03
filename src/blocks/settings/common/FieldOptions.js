@@ -13,6 +13,7 @@ const FieldOptions = ( props ) => {
 		setOption,
 		setDelete,
 		setNew,
+		setBulkNew,
 		hasLabel,
 		hasDescription = false,
 		type,
@@ -38,6 +39,8 @@ const FieldOptions = ( props ) => {
 	}, [] );
 
 	const [ draggedIndex, setDraggedIndex ] = useState( null );
+	const [ isBulkAddOpen, setIsBulkAddOpen ] = useState( false );
+	const [ bulkOptionsValue, setBulkOptionsValue ] = useState( '' );
 
 	const columnNumber = ( fieldType ) => {
 		switch ( fieldType ) {
@@ -177,6 +180,29 @@ const FieldOptions = ( props ) => {
 		if ( dragWrapper ) {
 			document.body.removeChild( dragWrapper );
 		}
+	};
+
+	const handleBulkAdd = () => {
+		const values = bulkOptionsValue
+			.split( '\n' )
+			.map( ( value ) => value.trim() )
+			.filter( Boolean );
+
+		if ( values.length > 0 ) {
+			if ( typeof setBulkNew === 'function' ) {
+				setBulkNew( values );
+			} else {
+				values.forEach( ( value ) => setNew( value ) );
+			}
+		}
+
+		setBulkOptionsValue( '' );
+		setIsBulkAddOpen( false );
+	};
+
+	const handleCancelBulkAdd = () => {
+		setBulkOptionsValue( '' );
+		setIsBulkAddOpen( false );
 	};
 
 	return (
@@ -508,12 +534,53 @@ const FieldOptions = ( props ) => {
 			</div>
 			{ hasMultiple && (
 				<div className="prad-plr-20 prad-mt-20">
-					<Button
-						value={ __( 'Add New Option', 'product-addons' ) }
-						iconName="plus_20"
-						background="primary"
-						onClick={ () => setNew() }
-					/>
+					{ ! isBulkAddOpen ? (
+						<div className="prad-d-flex prad-gap-8 prad-flex-wrap">
+							<Button
+								value={ __( 'Add New Option', 'product-addons' ) }
+								iconName="plus_20"
+								background="primary"
+								onClick={ () => setNew() }
+							/>
+							<Button
+								value={ __( 'Bulk Add New Options', 'product-addons' ) }
+								iconName="import"
+								background="base2"
+								onClick={ () => setIsBulkAddOpen( true ) }
+							/>
+						</div>
+					) : (
+						<div className="prad-d-flex prad-flex-column prad-gap-8">
+							<div className="prad-font-14 prad-color-text-dark">
+								{ __(
+									'Add one value per line.',
+									'product-addons'
+								) }
+							</div>
+							<textarea
+								className="prad-input prad prad-bc-border-primary prad-w-full"
+								rows={ 6 }
+								value={ bulkOptionsValue }
+								onChange={ ( event ) =>
+									setBulkOptionsValue( event.target.value )
+								}
+							/>
+							<div className="prad-d-flex prad-gap-8">
+								<Button
+									value={ __( 'Add', 'product-addons' ) }
+									iconName="plus_20"
+									background="primary"
+									onClick={ handleBulkAdd }
+								/>
+								<Button
+									value={ __( 'Cancel', 'product-addons' ) }
+									iconName="cross_20"
+									background="base2"
+									onClick={ handleCancelBulkAdd }
+								/>
+							</div>
+						</div>
+					) }
 				</div>
 			) }
 		</div>
