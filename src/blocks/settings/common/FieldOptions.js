@@ -5,7 +5,7 @@ import ColorPicker from '../../../components/ColorPicker';
 import Select from '../../../components/Select';
 import Icons from '../../../utils/Icons';
 
-const FieldOptions = ( props ) => {
+const FieldOptions = (props) => {
 	const {
 		hasMultiple,
 		options,
@@ -26,24 +26,24 @@ const FieldOptions = ( props ) => {
 		hasImg,
 	} = props;
 
-	const elementRefs = useRef( [] );
+	const elementRefs = useRef([]);
 
-	useEffect( () => {
-		if ( elementRefs.current.length ) {
-			elementRefs.current.forEach( ( ref ) => {
-				if ( ref ) {
-					ref.style.setProperty( 'margin-left', '9px', 'important' );
+	useEffect(() => {
+		if (elementRefs.current.length) {
+			elementRefs.current.forEach((ref) => {
+				if (ref) {
+					ref.style.setProperty('margin-left', '9px', 'important');
 				}
-			} );
+			});
 		}
-	}, [] );
+	}, []);
 
-	const [ draggedIndex, setDraggedIndex ] = useState( null );
-	const [ isBulkAddOpen, setIsBulkAddOpen ] = useState( false );
-	const [ bulkOptionsValue, setBulkOptionsValue ] = useState( '' );
+	const [draggedIndex, setDraggedIndex] = useState(null);
+	const [isBulkAddOpen, setIsBulkAddOpen] = useState(false);
+	const [bulkOptionsValue, setBulkOptionsValue] = useState('');
 
-	const columnNumber = ( fieldType ) => {
-		switch ( fieldType ) {
+	const columnNumber = (fieldType) => {
+		switch (fieldType) {
 			case 'button':
 				return 'seven';
 			case 'radio':
@@ -62,50 +62,50 @@ const FieldOptions = ( props ) => {
 	};
 
 	let isMultiChoice = multiChoice;
-	if ( type === 'radio' ) {
+	if (type === 'radio') {
 		isMultiChoice = false;
-	} else if ( type === 'checkbox' ) {
+	} else if (type === 'checkbox') {
 		isMultiChoice = true;
 	}
 
-	const handleActiveStatus = ( i ) => {
-		let newDef = [ ...defVal ];
-		const index = newDef.indexOf( i );
-		if ( index === -1 ) {
-			if ( isMultiChoice ) {
-				newDef.push( i );
+	const handleActiveStatus = (i) => {
+		let newDef = [...defVal];
+		const index = newDef.indexOf(i);
+		if (index === -1) {
+			if (isMultiChoice) {
+				newDef.push(i);
 			} else {
-				newDef = [ i ];
+				newDef = [i];
 			}
 		} else {
-			newDef.splice( index, 1 );
+			newDef.splice(index, 1);
 		}
-		setDefault( newDef );
+		setDefault(newDef);
 	};
 
-	const handleDragStart = ( e, index ) => {
-		if ( ! e.target.classList.contains( 'prad-option-drag-toolbar' ) ) {
+	const handleDragStart = (e, index) => {
+		if (!e.target.classList.contains('prad-option-drag-toolbar')) {
 			e.preventDefault();
 			return;
 		}
 
-		e.dataTransfer.setData( 'text/plain', index );
+		e.dataTransfer.setData('text/plain', index);
 		e.dataTransfer.effectAllowed = 'move';
 
 		e.target
-			.closest( '.prad-drag-wrapper-toolbar' )
-			.classList.add( 'prad-dragging' );
+			.closest('.prad-drag-wrapper-toolbar')
+			.classList.add('prad-dragging');
 
-		setDraggedIndex( index );
+		setDraggedIndex(index);
 
-		const blockElement = e.target.closest( '.prad-drag-wrapper-toolbar' );
+		const blockElement = e.target.closest('.prad-drag-wrapper-toolbar');
 
-		const dragImage = blockElement.cloneNode( true ); // Clone the block element
+		const dragImage = blockElement.cloneNode(true); // Clone the block element
 		dragImage.style.position = 'absolute';
 		dragImage.style.pointerEvents = 'none'; // Prevent interactions
 		dragImage.style.zIndex = '9999';
-		dragImage.classList.add( 'prad-dragged-element-wrapper' ); // Add a custom class for styling
-		document.body.appendChild( dragImage ); // Append to the document1
+		dragImage.classList.add('prad-dragged-element-wrapper'); // Add a custom class for styling
+		document.body.appendChild(dragImage); // Append to the document1
 
 		// Get mouse position relative to the blockElement
 		const rect = blockElement.getBoundingClientRect();
@@ -113,196 +113,196 @@ const FieldOptions = ( props ) => {
 		const offsetY = e.clientY - rect.top + 30;
 
 		// Set custom drag image with proper offset
-		e.dataTransfer.setDragImage( dragImage, offsetX, offsetY );
+		e.dataTransfer.setDragImage(dragImage, offsetX, offsetY);
 	};
-	const handleDragOver = ( e ) => {
+	const handleDragOver = (e) => {
 		e.preventDefault();
-		const target = e.target.closest( '.prad-drag-wrapper-toolbar' );
+		const target = e.target.closest('.prad-drag-wrapper-toolbar');
 
-		document.querySelectorAll( '.prad-drag-over' ).forEach( ( el ) => {
-			el.classList.remove( 'prad-drag-over' );
-		} );
+		document.querySelectorAll('.prad-drag-over').forEach((el) => {
+			el.classList.remove('prad-drag-over');
+		});
 
-		if ( target && ! target.classList.contains( 'prad-dragging' ) ) {
-			target.classList.add( 'prad-drag-over' );
+		if (target && !target.classList.contains('prad-dragging')) {
+			target.classList.add('prad-drag-over');
 		}
 	};
-	const handleDragEnter = ( e ) => {
-		const target = e.target.closest( '.prad-drag-wrapper-toolbar' );
+	const handleDragEnter = (e) => {
+		const target = e.target.closest('.prad-drag-wrapper-toolbar');
 
-		document.querySelectorAll( '.prad-drag-over' ).forEach( ( el ) => {
-			el.classList.remove( 'prad-drag-over' );
-		} );
+		document.querySelectorAll('.prad-drag-over').forEach((el) => {
+			el.classList.remove('prad-drag-over');
+		});
 
-		if ( target && ! target.classList.contains( 'prad-dragging' ) ) {
-			target.classList.add( 'prad-drag-over' );
+		if (target && !target.classList.contains('prad-dragging')) {
+			target.classList.add('prad-drag-over');
 		}
 	};
-	const handleDragLeave = ( e ) => {
+	const handleDragLeave = (e) => {
 		const related = e.relatedTarget?.closest(
 			'.prad-drag-wrapper-toolbar'
 		);
-		const target = e.target.closest( '.prad-drag-wrapper-toolbar' );
+		const target = e.target.closest('.prad-drag-wrapper-toolbar');
 
-		if ( ! related && target ) {
-			target.classList.remove( 'prad-drag-over' );
+		if (!related && target) {
+			target.classList.remove('prad-drag-over');
 		}
 	};
-	const handleDrop = ( e, index ) => {
+	const handleDrop = (e, index) => {
 		e.preventDefault();
-		setDraggedIndex( e.dataTransfer.getData( 'text/plain' ) );
+		setDraggedIndex(e.dataTransfer.getData('text/plain'));
 		handleDropCleanup();
-		if ( onDrop ) {
-			onDrop( index, draggedIndex );
+		if (onDrop) {
+			onDrop(index, draggedIndex);
 		}
 
-		document.querySelectorAll( '.prad-dragging' ).forEach( ( el ) => {
-			el.classList.remove( 'prad-dragging' );
-		} );
-		document.querySelectorAll( '.prad-drag-over' ).forEach( ( el ) => {
-			el.classList.remove( 'prad-drag-over' );
-		} );
+		document.querySelectorAll('.prad-dragging').forEach((el) => {
+			el.classList.remove('prad-dragging');
+		});
+		document.querySelectorAll('.prad-drag-over').forEach((el) => {
+			el.classList.remove('prad-drag-over');
+		});
 	};
 	const handleDragEnd = () => {
 		handleDropCleanup();
-		document.querySelectorAll( '.prad-dragging' ).forEach( ( el ) => {
-			el.classList.remove( 'prad-dragging' );
-		} );
-		document.querySelectorAll( '.prad-drag-over' ).forEach( ( el ) => {
-			el.classList.remove( 'prad-drag-over' );
-		} );
+		document.querySelectorAll('.prad-dragging').forEach((el) => {
+			el.classList.remove('prad-dragging');
+		});
+		document.querySelectorAll('.prad-drag-over').forEach((el) => {
+			el.classList.remove('prad-drag-over');
+		});
 	};
 
 	const handleDropCleanup = () => {
 		const dragWrapper = document.body.querySelector(
 			'.prad-dragged-element-wrapper'
 		);
-		if ( dragWrapper ) {
-			document.body.removeChild( dragWrapper );
+		if (dragWrapper) {
+			document.body.removeChild(dragWrapper);
 		}
 	};
 
 	const handleBulkAdd = () => {
 		const values = bulkOptionsValue
-			.split( '\n' )
-			.map( ( value ) => value.trim() )
-			.filter( Boolean );
+			.split('\n')
+			.map((value) => value.trim())
+			.filter(Boolean);
 
-		if ( values.length > 0 ) {
-			if ( typeof setBulkNew === 'function' ) {
-				setBulkNew( values );
+		if (values.length > 0) {
+			if (typeof setBulkNew === 'function') {
+				setBulkNew(values);
 			} else {
-				values.forEach( ( value ) => setNew( value ) );
+				values.forEach((value) => setNew(value));
 			}
 		}
 
-		setBulkOptionsValue( '' );
-		setIsBulkAddOpen( false );
+		setBulkOptionsValue('');
+		setIsBulkAddOpen(false);
 	};
 
 	const handleCancelBulkAdd = () => {
-		setBulkOptionsValue( '' );
-		setIsBulkAddOpen( false );
+		setBulkOptionsValue('');
+		setIsBulkAddOpen(false);
 	};
 
 	return (
 		<div className="prad-relative prad-pb-20 prad-border-default prad-br-smd">
 			<div className="prad-editor-settings-table">
 				<div
-					className={ `prad-field-header prad-font-14 prad-font-semi prad-mb-20 prad-gap-12 prad-d-grid prad-column-${ columnNumber(
+					className={`prad-field-header prad-font-14 prad-font-semi prad-mb-20 prad-gap-12 prad-d-grid prad-column-${columnNumber(
 						type
-					) }` }
+					)}`}
 				>
-					{ hasMultiple && (
+					{hasMultiple && (
 						<div>
 							<div className="prad-lh-0"></div>
 						</div>
-					) }
-					{ hasLabel && (
-						<div>{ __( 'Title', 'product-addons' ) }</div>
-					) }
-					{ isSwatches && (
+					)}
+					{hasLabel && (
+						<div>{__('Title', 'product-addons')}</div>
+					)}
+					{isSwatches && (
 						<div>
-							{ type === 'color_switch' ? 'Color' : 'Image' }
+							{type === 'color_switch' ? 'Color' : 'Image'}
 						</div>
-					) }
-					{ hasImg && (
+					)}
+					{hasImg && (
 						<div className="prad-relative">
-							{ __( 'Image', 'product-addons' ) }
+							{__('Image', 'product-addons')}
 						</div>
-					) }
-					<div>{ __( 'Price Type', 'product-addons' ) }</div>
-					<div>{ __( 'Regular', 'product-addons' ) }</div>
+					)}
+					<div>{__('Price Type', 'product-addons')}</div>
+					<div>{__('Regular', 'product-addons')}</div>
 					<div className="prad-relative">
-						{ __( 'Sales', 'product-addons' ) }
+						{__('Sales', 'product-addons')}
 					</div>
-					{ hasMultiple && (
-						<div>{ __( 'Active', 'product-addons' ) }</div>
-					) }
-					{ hasMultiple && <div></div> }
+					{hasMultiple && (
+						<div>{__('Active', 'product-addons')}</div>
+					)}
+					{hasMultiple && <div></div>}
 				</div>
 
-				{ options.map( ( val, i ) => {
+				{options.map((val, i) => {
 					return (
-						<Fragment key={ i }>
+						<Fragment key={i}>
 							<div
-								className={ `prad-field-row prad-drag-wrapper-toolbar prad-gap-12 prad-plr-20 prad-d-grid prad-item-center prad-column-${ columnNumber(
+								className={`prad-field-row prad-drag-wrapper-toolbar prad-gap-12 prad-plr-20 prad-d-grid prad-item-center prad-column-${columnNumber(
 									type
-								) }` }
-								id={ i }
-								onDragOver={ ( e ) => handleDragOver( e ) } // Handle drag over
-								onDragLeave={ ( e ) => handleDragLeave( e ) } // Handle drag leave
-								onDrop={ ( e ) => handleDrop( e, i ) }
-								onDragEnd={ handleDragEnd }
-								onDragEnter={ ( e ) => handleDragEnter( e ) }
+								)}`}
+								id={i}
+								onDragOver={(e) => handleDragOver(e)} // Handle drag over
+								onDragLeave={(e) => handleDragLeave(e)} // Handle drag leave
+								onDrop={(e) => handleDrop(e, i)}
+								onDragEnd={handleDragEnd}
+								onDragEnter={(e) => handleDragEnter(e)}
 							>
-								{ hasMultiple && (
+								{hasMultiple && (
 									<div>
 										<div
 											className="prad-lh-0 prad-cursor-pointer prad-option-drag-toolbar"
-											draggable={ true }
-											onDragStart={ ( e ) =>
-												handleDragStart( e, i )
+											draggable={true}
+											onDragStart={(e) =>
+												handleDragStart(e, i)
 											}
 										>
-											{ Icons.drag }
+											{Icons.drag}
 										</div>
 									</div>
-								) }
-								{ hasLabel && (
+								)}
+								{hasLabel && (
 									<div>
 										<input
 											className="prad-input prad-bc-border-primary prad-w-full"
 											type="text"
-											onChange={ ( v ) =>
+											onChange={(v) =>
 												setOption(
 													i,
 													'value',
 													v.target.value
 												)
 											}
-											value={ val.value }
+											value={val.value}
 										/>
 									</div>
-								) }
-								{ ( hasImg || isSwatches ) && (
+								)}
+								{(hasImg || isSwatches) && (
 									<div>
-										{ type === 'color_switch' ? (
+										{type === 'color_switch' ? (
 											<div>
 												<ColorPicker
-													initialColor={ val.color }
-													isSwatches={ true }
-													onChange={ ( newColor ) => {
+													initialColor={val.color}
+													isSwatches={true}
+													onChange={(newColor) => {
 														setOption(
 															i,
 															'color',
 															newColor
 														);
-													} }
-													style={ {
+													}}
+													style={{
 														width: '54px',
 														height: '34px',
-													} }
+													}}
 													triggerClass="prad-p-2 prad-br-smd"
 													selectedColorClass="prad-br-sm"
 												/>
@@ -310,36 +310,36 @@ const FieldOptions = ( props ) => {
 										) : (
 											<div
 												className="prad-lh-0 prad-p-2 prad-br-smd prad-border-default prad-cursor-pointer prad-relative"
-												onClick={ () => handleImage( i ) }
+												onClick={() => handleImage(i)}
 												role="button"
 												tabIndex="-1"
-												onKeyDown={ ( e ) => {
-													if ( e.key === 'Enter' ) {
-														handleImage( i );
+												onKeyDown={(e) => {
+													if (e.key === 'Enter') {
+														handleImage(i);
 													}
-												} }
+												}}
 											>
-												{ val.img && hasImg && (
+												{val.img && hasImg && (
 													<div
 														className="prad-absolute"
-														style={ {
+														style={{
 															backgroundColor:
 																'#ff0000',
 															top: '-8px',
 															right: '-8px',
 															borderRadius: '16px',
 															color: '#fff',
-														} }
-														onClick={ ( e ) => {
+														}}
+														onClick={(e) => {
 															e.stopPropagation();
 															handleImage(
 																i,
 																'remove'
 															);
-														} }
+														}}
 														role="button"
 														tabIndex="-1"
-														onKeyDown={ ( e ) => {
+														onKeyDown={(e) => {
 															if (
 																e.key === 'Enter'
 															) {
@@ -349,66 +349,65 @@ const FieldOptions = ( props ) => {
 																	'remove'
 																);
 															}
-														} }
+														}}
 													>
-														{ Icons.cross }
+														{Icons.cross}
 													</div>
-												) }
+												)}
 												<img
-													style={ {
+													style={{
 														width: '54px',
 														height: '34px',
 														objectFit: 'cover',
-													} }
+													}}
 													src={
 														val.img ||
 														pradBackendData.url +
-															'assets/img/default-product.svg'
+														'assets/img/default-product.svg'
 													}
 													alt="WowAddons"
 													className="prad-br-sm"
 												/>
 											</div>
-										) }
+										)}
 									</div>
-								) }
+								)}
 								<div className="prad-relative prad-d-flex prad-item-center ">
 									<Select
-										options={ priceTypes?.map( ( item ) => ( {
+										options={priceTypes?.map((item) => ({
 											value: item.val,
 											label: item.label,
 											isPro: item.isPro,
-										} ) ) }
-										onChange={ ( v ) => {
-											setOption( i, 'type', v.value );
-										} }
+										}))}
+										onChange={(v) => {
+											setOption(i, 'type', v.value);
+										}}
 										minWidth="100%"
-										selectedOption={ val.type }
+										selectedOption={val.type}
 										valueClass="prad-ellipsis"
 									/>
 								</div>
 								<div>
 									<input
-										className={ `prad-input prad-bc-border-primary prad-w-full prad-${
-											val.type === 'no_cost'
+										className={`prad-input prad-bc-border-primary prad-w-full prad-${val.type === 'no_cost'
 												? 'disable'
 												: 'enable'
-										}` }
+											}`}
 										type={
 											val.type === 'no_cost'
 												? 'text'
 												: 'number'
 										}
-										onChange={ ( v ) => {
+										onChange={(v) => {
 											const _val = v.target.value;
 											setOption(
 												i,
 												'regular',
 												_val < 0
-													? Math.abs( Number( _val ) )
+													? Math.abs(Number(_val))
 													: _val
 											);
-										} }
+										}}
 										value={
 											val.type === 'no_cost'
 												? 'Free'
@@ -418,171 +417,167 @@ const FieldOptions = ( props ) => {
 								</div>
 								<div>
 									<input
-										className={ `prad-input prad-bc-border-primary prad-w-full prad-${
-											val.type === 'no_cost'
+										className={`prad-input prad-bc-border-primary prad-w-full prad-${val.type === 'no_cost'
 												? 'disable'
 												: 'enable'
-										} prad-opacity-${
-											val.type === 'no_cost' ? 'half' : 'full'
-										}` }
+											} prad-opacity-${val.type === 'no_cost' ? 'half' : 'full'
+											}`}
 										type="number"
-										onChange={ ( v ) => {
+										onChange={(v) => {
 											const _val = v.target.value;
 											setOption(
 												i,
 												'sale',
 												_val < 0
-													? Math.abs( Number( _val ) )
+													? Math.abs(Number(_val))
 													: _val
 											);
-										} }
-										value={ val.sale }
+										}}
+										value={val.sale}
 									/>
 								</div>
-								{ hasMultiple &&
-									( isMultiChoice ? (
+								{hasMultiple &&
+									(isMultiChoice ? (
 										<div
-											className={ `prad-checkbox-custom prad-${
-												defVal?.indexOf( i ) > -1
+											className={`prad-checkbox-custom prad-${defVal?.indexOf(i) > -1
 													? 'active'
 													: 'inactive'
-											}` }
-											ref={ ( el ) =>
-												( elementRefs.current[ i ] = el )
+												}`}
+											ref={(el) =>
+												(elementRefs.current[i] = el)
 											}
-											onClick={ () =>
-												handleActiveStatus( i )
+											onClick={() =>
+												handleActiveStatus(i)
 											}
 											role="button"
 											tabIndex="-1"
-											onKeyDown={ ( e ) => {
-												if ( e.key === 'Enter' ) {
-													handleActiveStatus( i );
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													handleActiveStatus(i);
 												}
-											} }
+											}}
 										/>
 									) : (
 										<div
-											className={ `prad-radio-custom prad-${
-												defVal?.indexOf( i ) > -1
+											className={`prad-radio-custom prad-${defVal?.indexOf(i) > -1
 													? 'active'
 													: 'inactive'
-											}` }
-											ref={ ( el ) =>
-												( elementRefs.current[ i ] = el )
+												}`}
+											ref={(el) =>
+												(elementRefs.current[i] = el)
 											}
-											onClick={ () =>
-												handleActiveStatus( i )
+											onClick={() =>
+												handleActiveStatus(i)
 											}
 											role="button"
 											tabIndex="-1"
-											onKeyDown={ ( e ) => {
-												if ( e.key === 'Enter' ) {
-													handleActiveStatus( i );
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													handleActiveStatus(i);
 												}
-											} }
+											}}
 										/>
-									) ) }
-								{ hasMultiple && (
+									))}
+								{hasMultiple && (
 									<Button
-										onlyIcon={ true }
+										onlyIcon={true}
 										iconName="delete"
 										background="base2"
 										fontHeight="0"
 										borderRadius="100"
 										className="prad-btn-close"
 										borderColor="transparent"
-										onClick={ () => setDelete( i ) }
+										onClick={() => setDelete(i)}
 									/>
-								) }
-								{ hasDescription && (
+								)}
+								{hasDescription && (
 									<>
-										{ hasMultiple && <div></div> }
-										<div style={ { gridColumn: 'span 7' } }>
+										{hasMultiple && <div></div>}
+										<div style={{ gridColumn: 'span 7' }}>
 											<input
 												className="prad-input prad prad-bc-border-primary prad-w-full"
 												type="text"
-												onChange={ ( v ) =>
+												onChange={(v) =>
 													setOption(
 														i,
 														'description',
 														v.target.value
 													)
 												}
-												value={ val.description }
+												value={val.description}
 											/>
 										</div>
 									</>
-								) }
+								)}
 							</div>
-							{ hasMultiple && i < options.length - 1 && (
+							{hasMultiple && i < options.length - 1 && (
 								<div className="plus-line-container">
-								<div className="line"></div>
-								<button
-									type="button"
-									className="plus-button"
-									onClick={ () => setNew( i ) }
-								>
-									{ Icons.add }
-								</button>
-								<div className="line"></div>
-							</div>
-							) }
+									<div className="line"></div>
+									<button
+										type="button"
+										className="plus-button"
+										onClick={() => setNew(i)}
+									>
+										{Icons.add}
+									</button>
+									<div className="line"></div>
+								</div>
+							)}
 						</Fragment>
 					);
-				} ) }
+				})}
 			</div>
-			{ hasMultiple && (
+			{hasMultiple && (
 				<div className="prad-plr-20 prad-mt-20">
-					{ ! isBulkAddOpen ? (
+					{!isBulkAddOpen ? (
 						<div className="prad-d-flex prad-gap-8 prad-flex-wrap">
 							<Button
-								value={ __( 'Add New Option', 'product-addons' ) }
+								value={__('Add New Option', 'product-addons')}
 								iconName="plus_20"
 								background="primary"
-								onClick={ () => setNew() }
+								onClick={() => setNew()}
 							/>
 							<Button
-								value={ __( 'Bulk Add New Options', 'product-addons' ) }
+								value={__('Bulk Add New Options', 'product-addons')}
 								iconName="import"
 								background="base2"
-								onClick={ () => setIsBulkAddOpen( true ) }
+								onClick={() => setIsBulkAddOpen(true)}
 							/>
 						</div>
 					) : (
 						<div className="prad-d-flex prad-flex-column prad-gap-8">
 							<div className="prad-font-14 prad-color-text-dark">
-								{ __(
+								{__(
 									'Add one value per line.',
 									'product-addons'
-								) }
+								)}
 							</div>
 							<textarea
 								className="prad-input prad prad-bc-border-primary prad-w-full"
-								rows={ 6 }
-								value={ bulkOptionsValue }
-								onChange={ ( event ) =>
-									setBulkOptionsValue( event.target.value )
+								rows={6}
+								value={bulkOptionsValue}
+								onChange={(event) =>
+									setBulkOptionsValue(event.target.value)
 								}
 							/>
 							<div className="prad-d-flex prad-gap-8">
 								<Button
-									value={ __( 'Add', 'product-addons' ) }
+									value={__('Add', 'product-addons')}
 									iconName="plus_20"
 									background="primary"
-									onClick={ handleBulkAdd }
+									onClick={handleBulkAdd}
 								/>
 								<Button
-									value={ __( 'Cancel', 'product-addons' ) }
+									value={__('Cancel', 'product-addons')}
 									iconName="cross_20"
 									background="base2"
-									onClick={ handleCancelBulkAdd }
+									onClick={handleCancelBulkAdd}
 								/>
 							</div>
 						</div>
-					) }
+					)}
 				</div>
-			) }
+			)}
 		</div>
 	);
 };
