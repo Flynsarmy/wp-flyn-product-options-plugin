@@ -235,6 +235,12 @@ class RequestApi {
 				'callback'            => array( $this, 'get_product_link_callback' ),
 				'permission_callback' => array( $this, 'prad_get_view_only_permissions' ),
 			),
+			array(
+				'endpoint'            => 'duplicate_block_to_lists',
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'duplicate_block_to_lists_callback' ),
+				'permission_callback' => array( $this, 'prad_get_admin_permissions' ),
+			),
 		);
 
 		foreach ( $routes as $route ) {
@@ -588,6 +594,89 @@ class RequestApi {
 			200
 		);
 	}
+
+	/**
+	 * Helper function to regenerate block IDs.
+	 */
+	private function regenerate_block_ids( $block, $parent_section_id = null ) {
+		$block['blockid'] = substr( str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyz' ), 0, 8 );
+		if ( $parent_section_id ) {
+			$block['sectionid'] = $parent_section_id;
+		}
+		if ( isset( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+			foreach ( $block['innerBlocks'] as &$innerBlock ) {
+				$innerBlock = $this->regenerate_block_ids( $innerBlock, $block['blockid'] );
+			}
+		}
+		return $block;
+	}
+
+	/**
+	 * Duplicates a block to multiple options lists.
+	 *
+	 * @param \WP_REST_Request $request The REST API request object.
+	 * @return WP_REST_Response Response indicating success or failure.
+	 */
+	public function duplicate_block_to_lists_callback( \WP_REST_Request $request ) {
+		$params   = $request->get_params();
+		$list_ids = isset( $params['list_ids'] ) ? array_map( 'absint', (array) $params['list_ids'] ) : array();
+		$block    = isset( $params['block'] ) ? $params['block'] : array();
+
+		if ( empty( $list_ids ) || empty( $block ) ) {
+			return new WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => __( 'Missing list IDs or block data.', 'flyn-product-options' ),
+				),
+				400
+			);
+		}
+
+		$updated_lists = array();
+
+		foreach ( $list_ids as $list_id ) {
+			$post = get_post( $list_id );
+			if ( ! $post || $post->post_type !== 'prad_option' ) {
+				continue;
+			}
+
+			$existing_blocks = get_post_meta( $list_id, 'prad_addons_blocks', true );
+			if ( ! is_array( $existing_blocks ) ) {
+				$existing_blocks = is_string( $existing_blocks ) ? json_decode( $existing_blocks, true ) : array();
+				if ( ! is_array( $existing_blocks ) ) {
+					$existing_blocks = array();
+				}
+			}
+
+			// Generate new ID for block recursively
+			$new_block = $this->regenerate_block_ids( $block );
+
+			// Append new block to list
+			$existing_blocks[] = $new_block;
+
+			update_post_meta( $list_id, 'prad_addons_blocks', $existing_blocks );
+
+			// Get edit link
+			$edit_url = admin_url( 'admin.php?page=flynpo-dashboard#lists/' . $list_id );
+			$updated_lists[] = array(
+				'id'       => $list_id,
+				'title'    => $post->post_title,
+				'edit_url' => $edit_url,
+			);
+		}
+
+		do_action( 'prad_handle_cache_on_save' );
+
+		return new WP_REST_Response(
+			array(
+				'success' => true,
+				'message' => __( 'Block duplicated successfully.', 'flyn-product-options' ),
+				'lists'   => $updated_lists,
+			),
+			200
+		);
+	}
+
 	/**
 	 * Import List
 	 *

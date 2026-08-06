@@ -8,6 +8,7 @@ import { useEditor } from '../../context/EditorContext';
 import Skeleton from '../../utils/Skeleton';
 import AlertModal from '../../utils/alert';
 import ConfirmModal from '../../utils/modal';
+import DuplicateToModal from './components/DuplicateToModal';
 import Toast from '../../utils/toaster/Toast';
 import Assign from '../assign/Assign';
 import Builder from './Builder';
@@ -500,6 +501,7 @@ const Editor = ( props ) => {
 					setToastMessages={ setToastMessages }
 				/>
 			) }
+			<DuplicateToModal />
 		</>
 	);
 };

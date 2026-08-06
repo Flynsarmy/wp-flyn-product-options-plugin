@@ -31,6 +31,11 @@ export const EditorProvider = ( { optionId, children } ) => {
 	);
 	const [ customFonts, setCustomFonts ] = useState( [] );
 
+	const [ duplicateModalState, setDuplicateModalState ] = useState( {
+		open: false,
+		block_data: null,
+	} );
+
 	const handleAssignedData = ( type, data ) => {
 		// type can be aType, includes, excludes
 		setAssignedData( {
@@ -129,6 +134,8 @@ export const EditorProvider = ( { optionId, children } ) => {
 		setUpdateProductImageData,
 		customFonts,
 		setCustomFonts,
+		duplicateModalState,
+		setDuplicateModalState,
 	};
 
 	return (

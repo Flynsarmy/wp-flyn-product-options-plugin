@@ -10,7 +10,7 @@ import { useEditor } from '../../context/EditorContext';
 const ToolBar = ( props ) => {
 	const { setFieldData, settings, fieldData, position } = props;
 	const { updateDraggData, updateDrawer, upDateSelectedBlock } = useAddons();
-	const { setUpdateProductImageData } = useEditor();
+	const { setUpdateProductImageData, setDuplicateModalState } = useEditor();
 
 	const toolbarSetData = ( type, val ) => {
 		setFieldData( ( prevState ) => {
@@ -128,6 +128,33 @@ const ToolBar = ( props ) => {
 						} }
 					>
 						{ Icons.copy }
+					</div>
+				</div>
+
+				<div className="prad-toolbar-item">
+					<div
+						className="prad-icon"
+						title="Duplicate To"
+						onClick={ ( e ) => {
+							e.stopPropagation();
+							setDuplicateModalState( {
+								open: true,
+								block_data: settings,
+							} );
+						} }
+						role="button"
+						tabIndex="-1"
+						onKeyDown={ ( e ) => {
+							if ( e.key === 'Enter' ) {
+								e.stopPropagation();
+								setDuplicateModalState( {
+									open: true,
+									block_data: settings,
+								} );
+							}
+						} }
+					>
+						{ Icons.export }
 					</div>
 				</div>
 
