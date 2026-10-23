@@ -6,7 +6,6 @@ import handleVariationPrice from './utility/variations';
 import { fieldCompatibility } from './utility/compatibility';
 import { initFields } from './handlers/initFields';
 import { updateFormulaDynamicValues } from './handlers/formula';
-import { initAnalytics } from './utility/analytics';
 import { fieldPrice } from './utility/priceHandler';
 
 const $ = jQuery;
@@ -24,7 +23,6 @@ export function initWowActions() {
 	initializeState();
 	fieldCompatibility.initCompatibility();
 	fieldWarning.initFieldWarnings();
-	initAnalytics();
 }
 
 /**

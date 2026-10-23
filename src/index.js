@@ -4,7 +4,6 @@ import Header from './components/others/header';
 import { AddonsProvider } from './context/AddonsContext';
 import { EditorProvider } from './context/EditorContext';
 import { NavProvider, useNav } from './context/NavContext';
-import Analytics from './dashboard/analytics';
 import Editor from './dashboard/editor/Editor';
 import OptionList from './dashboard/option_list';
 import Overview from './dashboard/overview';
@@ -90,7 +89,6 @@ const Dashboard = () => {
 // Route configuration object
 const routeConfig = {
 	dashboard: { component: Overview, showHeader: true },
-	analytics: { component: Analytics, showHeader: true },
 	settings: { component: Settings, showHeader: true },
 	fonts: { component: CustomFonts, showHeader: true },
 };

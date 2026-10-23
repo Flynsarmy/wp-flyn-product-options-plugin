@@ -1,62 +1,11 @@
 const { __ } = wp.i18n;
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from '../../components/Button';
-import DataChart from '../../components/others/graph/DataChart';
 import { useNav } from '../../context/NavContext';
 import Icons from '../../utils/Icons';
 import UTMLinkGenerator from '../../utils/utm_link';
 
-const generateDummyData = () => {
-	const now = new Date();
-	const data = [];
-
-	const createEntry = ( daysAgo ) => {
-		const date = new Date( now );
-		date.setDate( now.getDate() - daysAgo );
-		return {
-			id: Math.floor( Math.random() * 100 ) + 1,
-			date: date.toISOString().split( 'T' )[ 0 ],
-			impression_count: Math.floor( Math.random() * 2 ),
-			click_count: Math.floor( Math.random() * 6 ),
-			add_to_cart_count: Math.floor( Math.random() * 5 ),
-			order_count: Math.floor( Math.random() * 3 ),
-			sales: Math.floor( Math.random() * 51 ),
-		};
-	};
-
-	const getRandomOffsets = ( count, maxDaysAgo, minDaysAgo = 0 ) => {
-		const offsets = new Set();
-		while ( offsets.size < count ) {
-			const offset =
-				Math.floor( Math.random() * ( maxDaysAgo - minDaysAgo + 1 ) ) +
-				minDaysAgo;
-			offsets.add( offset );
-		}
-		return [ ...offsets ];
-	};
-
-	// Add 4 within last 7 days
-	getRandomOffsets( 4, 6 ).forEach( ( offset ) =>
-		data.push( createEntry( offset ) )
-	);
-
-	// Add 5 within last 30 days (excluding last 7)
-	getRandomOffsets( 5, 30, 7 ).forEach( ( offset ) =>
-		data.push( createEntry( offset ) )
-	);
-
-	// Add 7 within last 365 days (excluding last 30)
-	getRandomOffsets( 7, 365, 31 ).forEach( ( offset ) =>
-		data.push( createEntry( offset ) )
-	);
-
-	return data;
-};
-
 const Overview = () => {
-	const [ isLoading, setIsLoading ] = useState( true );
-	const [ statsGraph, setStatsGraph ] = useState( [] );
-
 	const { setCurrentNav } = useNav();
 
 	const [ installStatus, setInstallStatus ] = useState( {} );
@@ -100,19 +49,6 @@ const Overview = () => {
 				} ) );
 			} );
 	};
-
-	useEffect( () => {
-		setIsLoading( true );
-		wp.apiFetch( {
-			method: 'GET',
-			path: '/prad/get_analytics',
-		} ).then( ( obj ) => {
-			setIsLoading( false );
-			if ( obj.success ) {
-				setStatsGraph( obj.stats_graph );
-			}
-		} );
-	}, [] );
 
 	const PluginCard = ( { id, icon, title, description } ) => {
 		return (
@@ -263,20 +199,6 @@ const Overview = () => {
 		<div className="flynpo-dashboard prad-mlg-plr-16 prad-container prad-plr-32 prad-mt-40">
 			<div className="flynpo-dashboard-container-left">
 				{ renderHeroContent() }
-				{ statsGraph.length < 1 && ! isLoading ? (
-					<div className="prad-version-container prad-w-fit prad-mb-10">
-						{ __( 'This is Dummy Data', 'product-addons' ) }
-					</div>
-				) : (
-					''
-				) }
-				<DataChart
-					isLoading={ isLoading }
-					isOverview={ true }
-					chartData={
-						statsGraph.length > 0 ? statsGraph : generateDummyData()
-					}
-				/>
 			</div>
 
 			<div className="flynpo-dashboard-container-right">

@@ -92,10 +92,9 @@ class Options {
 			'flynpo-dashboard'
 		);
 
-		$menu_lists              = array();
-		$menu_lists['lists']     = esc_html__( 'Option Lists', 'flyn-product-options' );
-		$menu_lists['analytics'] = esc_html__( 'Analytics', 'flyn-product-options' );
-		$menu_lists['settings']  = esc_html__( 'Settings', 'flyn-product-options' );
+		$menu_lists             = array();
+		$menu_lists['lists']    = esc_html__( 'Option Lists', 'flyn-product-options' );
+		$menu_lists['settings'] = esc_html__( 'Settings', 'flyn-product-options' );
 
 		add_submenu_page(
 			'edit.php?post_type=product',

@@ -8,7 +8,6 @@
 
 namespace Flyn\ProductOptions\RestAPI;
 
-use Flyn\ProductOptions\Analytics;
 use Flyn\ProductOptions\MigrateTwo;
 use Flyn\ProductOptions\Xpo;
 use WP_REST_Response;
@@ -44,20 +43,6 @@ class RequestApi {
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'upload_files_callback' ),
 				'permission_callback' => '__return_true',
-			),
-			array(
-				'endpoint'            => 'set_analytics',
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'set_analytics_data_callback' ),
-				'permission_callback' => '__return_true',
-			),
-
-			// Get Analytics Data.
-			array(
-				'endpoint'            => 'get_analytics',
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_analytics_data_callback' ),
-				'permission_callback' => array( $this, 'prad_get_view_only_permissions' ),
 			),
 
 			// Backend Option Listing.
@@ -1697,134 +1682,6 @@ class RequestApi {
 		$upload['path']   = $upload['basedir'] . $upload['subdir'];
 		$upload['url']    = $upload['baseurl'] . $upload['subdir'];
 		return $upload;
-	}
-
-	public function set_analytics_data_callback( \WP_REST_Request $request ) {
-		$request_params = $request->get_params();
-		$option_id      = isset( $request_params['optionId'] ) ? sanitize_text_field( $request_params['optionId'] ) : '';
-		$type           = isset( $request_params['type'] ) ? sanitize_text_field( $request_params['type'] ) : '';
-
-		if ( $option_id && $type ) {
-			do_action( 'prad_update_stats_table_data', $option_id, $type, '' );
-			return new WP_REST_Response(
-				array(
-					'success'   => true,
-					'option_id' => $option_id,
-					'type'      => $type,
-					'message'   => __( 'Analytics data updated.', 'flyn-product-options' ),
-				),
-				200
-			);
-		}
-		return new WP_REST_Response(
-			array(
-				'success' => false,
-				'message' => __( 'Invalid Analytics data.', 'flyn-product-options' ),
-			),
-			400
-		);
-	}
-
-	/**
-	 * Retrieves a list of options with search and pagination functionality.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param \WP_REST_Request $request The REST API request object.
-	 * @return WP_REST_Response Response containing the list of options and pagination info.
-	 */
-	public function get_analytics_data_callback( \WP_REST_Request $request ) {
-		$params = $request->get_params();
-		$search = isset( $params['search'] ) ? sanitize_text_field( $params['search'] ) : '';
-
-		global $wpdb;
-
-		$table_name   = $wpdb->prefix . 'prad_stats_graph';
-		$table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" );
-		if ( $table_exists ) {
-			$stats_graph = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}prad_stats_graph ORDER BY id ASC" );
-		} else {
-			$wpdb->hide_errors();
-			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-			$analytics = new Analytics();
-			$analytics->create_stats_graph_table();
-			$stats_graph = array();
-		}
-
-		return new WP_REST_Response(
-			array(
-				'success'     => true,
-				'stats_table' => $this->stats_table_data(),
-				'stats_graph' => ! empty( $stats_graph ) ? $stats_graph : array(),
-			),
-			200
-		);
-	}
-
-	public function stats_table_data() {
-		global $wpdb;
-
-		$table_name   = $wpdb->prefix . 'prad_stats_table';
-		$table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" );
-		if ( ! $table_exists ) {
-			$wpdb->hide_errors();
-			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-			$analytics = new Analytics();
-			$analytics->create_stats_table();
-			return array();
-		}
-
-		$paged    = 1;
-		$per_page = -1;
-		$order    = 'DESC';
-
-		$args = array(
-			'post_type'      => 'prad_option',
-			'posts_per_page' => $per_page,
-			'order'          => $order,
-			'orderby'        => 'ID',
-			'post_status'    => array( 'publish', 'draft' ),
-			'paged'          => $paged,
-		);
-
-		$query = new \WP_Query( $args );
-		$data  = array();
-
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				$id           = get_the_ID();
-				$option_stats = $wpdb->get_results(
-					$wpdb->prepare(
-						"SELECT * FROM {$wpdb->prefix}prad_stats_table WHERE option_id = %d",
-						$id
-					)
-				);
-
-				if ( ! empty( $option_stats ) ) {
-					$option_stats = $option_stats[0];
-				} else {
-					$option_stats = (object) array();
-				}
-
-				$click_rate = ( isset( $option_stats->impression_count ) && isset( $option_stats->click_count ) && $option_stats->impression_count > 0 ) ? ( $option_stats->click_count / $option_stats->impression_count ) * 100 : 0;
-				$cart_rate  = ( isset( $option_stats->impression_count ) && isset( $option_stats->add_to_cart_count ) && $option_stats->impression_count > 0 ) ? ( $option_stats->add_to_cart_count / $option_stats->impression_count ) * 100 : 0;
-
-				$data[] = array(
-					'id'           => $id,
-					'title'        => get_the_title(),
-					'click'        => round( $click_rate ),
-					'cart'         => round( $cart_rate ),
-					'sales'        => isset( $option_stats->sales ) ? $option_stats->sales : 0,
-					'option_stats' => $option_stats,
-					'assigned'     => flynpo_product_options()->get_assigned_product_data( $id ),
-				);
-			}
-
-			wp_reset_postdata();
-		}
-
-		return $data;
 	}
 
 	/**

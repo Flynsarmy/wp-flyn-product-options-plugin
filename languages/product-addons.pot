@@ -146,10 +146,6 @@ msgstr ""
 msgid "Option Lists"
 msgstr ""
 
-#: includes/admin/class-options.php:123
-msgid "Analytics"
-msgstr ""
-
 #: includes/admin/class-options.php:124
 #: assets/js/wowaddons.js:2
 msgid "Settings"
@@ -371,14 +367,6 @@ msgstr ""
 
 #: includes/restapi/class-request-api.php:1377
 msgid "Invalid file type."
-msgstr ""
-
-#: includes/restapi/class-request-api.php:1466
-msgid "Analytics data updated."
-msgstr ""
-
-#: includes/restapi/class-request-api.php:1474
-msgid "Invalid Analytics data."
 msgstr ""
 
 #: includes/restapi/class-request-api.php:1603
@@ -1083,18 +1071,6 @@ msgstr ""
 
 #: assets/js/wowaddons.js:2
 msgid "Active/Hover"
-msgstr ""
-
-#: assets/js/wowaddons.js:2
-msgid "Addons Analytics"
-msgstr ""
-
-#: assets/js/wowaddons.js:2
-msgid "Track Sales, Orders, Clicks, and Add-to-Cart Rate."
-msgstr ""
-
-#: assets/js/wowaddons.js:2
-msgid "All Analytics"
 msgstr ""
 
 #: assets/js/wowaddons.js:2

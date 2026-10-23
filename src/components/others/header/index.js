@@ -70,7 +70,6 @@ function Header() {
 	const menuItems = [
 		{ to: 'dashboard', label: 'Overview' },
 		{ to: 'lists', label: 'Option List' },
-		{ to: 'analytics', label: 'Analytics' },
 		{ to: 'settings', label: 'Settings' },
 		{ to: 'fonts', label: 'Fonts' },
 	];

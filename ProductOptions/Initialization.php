@@ -47,7 +47,6 @@ class Initialization {
 	public function requires() {
 
 		new PostType();
-		new Analytics();
 		new Xpo();
 
 		new Options();

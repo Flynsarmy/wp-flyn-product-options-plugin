@@ -202,25 +202,16 @@ class CheckoutPage {
 		// Get all items from the order.
 		$items = $order->get_items();
 
-		$data = array();
+		$has_option_ids = false;
 
 		// Loop through each item in the order.
 		foreach ( $items as $item ) {
-			// Get the campaign ID from the item's meta data.
-			$option_ids             = $item->get_meta( '_prad_option_ids' );
-			$prad_option_price_data = $item->get_meta( '_prad_option_price_data' );
+			// Get the option IDs from the item's meta data.
+			$option_ids = $item->get_meta( '_prad_option_ids' );
 
 			if ( $option_ids ) {
 				$order->update_meta_data( '_prad_option_ids', $option_ids );
-				$option_ids = (array) $option_ids;
-				$data       = array_unique( array_merge( $data, $option_ids ) );
-				if ( $prad_option_price_data ) {
-					foreach ( $option_ids as $opt_id ) {
-						if ( isset( $prad_option_price_data[ $opt_id ] ) ) {
-							do_action( 'prad_update_stats_table_data', $opt_id, 'sales', $prad_option_price_data[ $opt_id ] );
-						}
-					}
-				}
+				$has_option_ids = true;
 			}
 
 			// Add Order Item Meta & Handle Upload paths
@@ -266,12 +257,8 @@ class CheckoutPage {
 			$item->save();
 		}
 
-		if ( ! empty( $data ) ) {
+		if ( $has_option_ids ) {
 			$order->save();
-			foreach ( $data as $campaign_id ) {
-				do_action( 'prad_update_stats_table_data', $campaign_id, 'order_count', '' );
-				// do_action( 'prad_update_stats_table_data', $campaign_id, 'sales', $order->get_total() );
-			}
 		}
 	}
 }

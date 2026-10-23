@@ -140,11 +140,6 @@ class CartPage {
 		$_POST['prad_option_published_ids'] = '';
 		$_POST['prad_products_selection']   = '';
 
-		if ( ! empty( $option_ids ) ) {
-			foreach ( $option_ids as $id ) {
-				do_action( 'prad_update_stats_table_data', $id, 'add_to_cart_count', '' );
-			}
-		}
 		if ( ! empty( $prad_selection ) ) {
 			$data = $this->calculate_option_price( $prad_selection, $product_id, $option_ids, ! empty( $variation_id ) ? $variation_id : '' );
 
